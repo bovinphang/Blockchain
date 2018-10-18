@@ -148,7 +148,7 @@ HTTP返回的 Content-Type 应该设置为：application/json;charset=utf-8。
 接口层返回的JSON数据至少包含一个元素即code，表示操作是否成功，如下示：
 
 ```json
-{code: "200"}
+{"code": "200"}
 ```
 返回的其它数据统一放到data属性中,如下所示：
 ```json
