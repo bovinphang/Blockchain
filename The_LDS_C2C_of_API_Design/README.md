@@ -101,8 +101,9 @@ LDS交易所C2C接口规范
         "name": "demo",
         "photo": "photo_url"
       },
-      "name": "demo1",
-      "photo": "photo_url1"
+      {
+      	 "name": "demo1",
+         "photo": "photo_url1"
       }
      ],
     "user": {
@@ -407,18 +408,16 @@ http://IP:PORT/?_apiname=oder.oder.addOder&mtoken=e856f9453a657db361881aebd78351
     "buying_volume": "1000",
     "total_price": "10000.00",
     "reference_no": "rno10sdafasf",
-    "seller_info": [
-      {
+    "seller_info": {
         "name": "李娟",
         "mobile_phone": "13636486689",
         "bank_account":[
             {"account_number":"621792076063967955","bank_name":"招商银行","account_name":"李娟","bank_address":"深圳市高新园支行"},
-            {"account_number":"663693326476892015","bank_name":"农业银行","account_name":"李德顺","bank_address":"深圳市宝安支行"},
+            {"account_number":"663693326476892015","bank_name":"农业银行","account_name":"李德顺","bank_address":"深圳市宝安支行"}
          ],
 		"alipay":{"account_number":"15665544556","qrcode":"http://domain/images/alipay/qrcode/15665544556.png"},
 		"weixin":{"account_number":"15665544556","qrcode":"http://domain/images/alipay/qrcode/15665544556.png"}
-      }
-    
+    }
   }
 }
 ```
@@ -437,6 +436,63 @@ http://IP:PORT/?_apiname=oder.oder.addOder&mtoken=e856f9453a657db361881aebd78351
 | bank_account | Object | 1+ | 卖方银行卡帐号信息 |
 | alipay | Object | 1 | 卖方支付宝帐号信息 |
 | weixin | Object | 1 | 卖方微信帐号信息 |
+
+
+### <a name='422-update-order-status'>4.2.2 更新订单交易状态</a>
+
+#### <a name='4221-function-description'>4.2.2.1  功能说明</a>
+更新订单的交易状态。
+
+#### <a name='4222-input'>4.2.2.2  输入</a>
+
+**Request URL:**
+
+```http
+http://IP:PORT/?_apiname=oder.oder.updateOrderStatus&mtoken=e856f9453a657db361881aebd78351af&cc=1539659992&ck=b7d7662bd8771012810857e2b9656bf5&_env={}
+```
+
+**Request Method:** `POST`
+
+**Accept:** `application/json`
+
+**Request Body:**
+
+```json
+{"oder_no":"c20181018999","status":"1"}
+```
+
+ **请求参数说明：**
+
+- URL部分
+
+| 信息单元 | 必选 | 类型   | 长度  | 说明                                          |
+| -------- | ---- | ------ | ----- | --------------------------------------------- |
+| _apiname | 是   | String | 1-32  | 接口名，固定值：oder.oder.addOder     |
+| mtoken   | 是   | String | 32    | 用户登录令牌,由后台生成返回给前端             |
+| cc       | 是   | Int    | 10    | 时间戳，调用方生成                            |
+| ck       | 是   | String | 32    | 校验码，调用方生成: md5(时间戳+私钥+ apiname) |
+| _env     | 否   | String | 1-200 | App环境参数                                   |
+
+-  Body部分
+
+| 信息单元 | 必选 | 类型   | 长度 | 说明                                                         |
+| -------- | ---- | ------ | ---- | ------------------------------------------------------------ |
+| oder_no  | 是   | String | 20   | 订单号                                                       |
+| status   | 是   | Int    | 1    | 订单状态（0：待付款， 1：用户已付款， 2：公司已付款 ，3：交易完成， 4：已取消） |
+
+
+#### <a name='4223-ouput'>4.2.2.3  输出</a>
+
+```json
+{
+  "code": "200",
+  "msg": "success",
+  "time": "1539667765",
+  "data": {}
+  }
+}
+```
+
 
 
 # <a name='5-appendix'>5. 附录</a>
