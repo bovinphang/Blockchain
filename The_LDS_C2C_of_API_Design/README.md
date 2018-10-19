@@ -802,7 +802,6 @@ http://IP:PORT/?_apiname=order.order.updateOrderStatus&mtoken=e856f9453a657db361
             {"name":"demo","photo":"photo_url"},  {"name":"demo1","photo":"photo_url1"}
         ],
         "user":{"id":"1","name":"nnh1111","sex":"男"}
-        }
 	}
 }
 ```
