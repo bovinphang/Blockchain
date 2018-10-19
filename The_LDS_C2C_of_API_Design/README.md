@@ -24,8 +24,6 @@ LDS交易所C2C接口规范
 | 1.0    |       | bovin | 10/15/2018 | 创建当前文档 |      |
 | latest |       | bovin | 10/18/2018 |        |      |
 |        |       |       |            |        |      |
-|        |       |       |            |        |      |
-|        |       |       |            |        |      |
 
 
 
@@ -51,33 +49,38 @@ LDS交易所C2C接口规范
 **[3. 接入方](#3-user)**
 
 **[4. 接口](#4-interface)**
-* [4.1 用户管理](#41-user-management)
-  * [4.1.1 获取用户详情信息](#411-get-user-info-by-id)
+* [4.1 客户管理](#41-user-management)
+  * [4.1.1 获取客户详情信息](#411-get-user-info-by-id)
      * [4.1.1.1 功能说明](#4111-function-description)
      * [4.1.1.2 输入](#4112-input)
      * [4.1.1.3 输出](#4113-ouput)
-* [4.2 币种管理](#42-coin-management)
-  * [4.2.1 获取币种详情信息](#421-get-coin-info-by-id)
+* [4.2 支付方式管理](#42-payment-management)
+  * [4.2.1 获取支付方式详情信息](#421-get-payment-info-by-id)
      * [4.2.1.1 功能说明](#4211-function-description)
      * [4.2.1.2 输入](#4212-input)
      * [4.2.1.3 输出](#4213-ouput)
-  * [4.2.2 获取支持C2C交易的币种列表](#422-get-c2c-coin-list)
-     * [4.2.2.1 功能说明](#4221-function-description)
-     * [4.2.2.2 输入](#4222-input)
-     * [4.2.2.3 输出](#4223-ouput)
-* [4.3 C2C订单管理](#43-c2c-order-management)
-  * [4.3.1 提交订单（委托买入/卖出）](#431-add-order)
+* [4.3 币种管理](#43-coin-management)
+  * [4.3.1 获取币种详情信息](#431-get-coin-info-by-id)
      * [4.3.1.1 功能说明](#4311-function-description)
      * [4.3.1.2 输入](#4312-input)
      * [4.3.1.3 输出](#4313-ouput)
-  * [4.3.2 获取订单详情](#432-get-order-info)
+  * [4.3.2 获取支持C2C交易的币种列表](#432-get-c2c-coin-list)
      * [4.3.2.1 功能说明](#4321-function-description)
      * [4.3.2.2 输入](#4322-input)
      * [4.3.2.3 输出](#4323-ouput)
-  * [4.3.3 更新订单交易状态](#433-update-order-status)
-     * [4.3.3.1 功能说明](#4331-function-description)
-     * [4.3.3.2 输入](#4332-input)
-     * [4.3.3.3 输出](#4333-ouput)
+* [4.4 C2C订单管理](#44-c2c-order-management)
+  * [4.4.1 提交订单（委托买入/卖出）](#441-add-order)
+     * [4.4.1.1 功能说明](#4411-function-description)
+     * [4.4.1.2 输入](#4412-input)
+     * [4.4.1.3 输出](#4413-ouput)
+  * [4.4.2 获取订单详情](#442-get-order-info)
+     * [4.4.2.1 功能说明](#4421-function-description)
+     * [4.4.2.2 输入](#4422-input)
+     * [4.4.2.3 输出](#4423-ouput)
+  * [4.4.3 更新订单交易状态](#443-update-order-status)
+     * [4.4.3.1 功能说明](#4431-function-description)
+     * [4.4.3.2 输入](#4432-input)
+     * [4.4.3.3 输出](#4433-ouput)
 
 **[5. 附录](#5-appendix)**
 
@@ -230,12 +233,12 @@ _apiname的值对大小不敏感。
 # <a name='4-interface'>4. 接口</a>
 
 
-## <a name='41-user-management'>4.1 用户管理</a>
+## <a name='41-user-management'>4.1 客户管理</a>
 
-### <a name='411-get-user-info-by-id'>4.1.1  获取用户详情信息</a>
+### <a name='411-get-user-info-by-id'>4.1.1  获取客户详情信息</a>
 
 #### <a name='4111-function-description'>4.1.1.1  功能说明</a>
-通过用户ID获取其详情信息。
+通过客户ID获取其详情信息。
 
 #### <a name='4112-input'>4.1.1.2  输入</a>
 
@@ -272,7 +275,7 @@ http://IP:PORT/?_apiname=user.user.getUserInfoById&mtoken=e856f9453a657db361881a
 
 | 信息单元 | 必选 | 类型    | 长度 | 说明   |
 | -------- | ---- | ------- | ---- | ------ |
-| id  | 是   | int | 1-11  | 用户ID |
+| id  | 是   | int | 1-11  | 客户ID |
 
 #### <a name='4113-ouput'>4.1.1.3  输出</a>
 
@@ -310,15 +313,108 @@ http://IP:PORT/?_apiname=user.user.getUserInfoById&mtoken=e856f9453a657db361881a
 | area         | string  | 0-100 | 所在地区                 |
 | address      | string  | 0-200 | 地址                     |
 
+## <a name='42-payment-management'>4.2 支付方式管理</a>
 
-## <a name='42-coin-management'>4.2 币种管理</a>
-
-### <a name='421-get-coin-info-by-id'>4.2.1  获取币种详情信息</a>
+### <a name='421-get-payment-info-by-id'>4.2.1  获取支付方式详情信息</a>
 
 #### <a name='4211-function-description'>4.2.1.1  功能说明</a>
-通过币种ID获取币种详情信息。
+通过支付方式的帐户ID获取其详情信息。
 
 #### <a name='4212-input'>4.2.1.2  输入</a>
+
+**Request URL:**
+
+```http
+http://IP:PORT/?_apiname=user.payment.getPaymentInfoById&mtoken=e856f9453a657db361881aebd78351af&cc=1539659992&ck=b7d7662bd8771012810857e2b9656bf5&_env={}
+```
+
+**Request Method:** `POST`
+
+**Accept:** `application/json`
+
+**Request Body:**
+
+```json
+{"type":"1","id":"3"}
+```
+
+ **请求参数说明：**
+
+- URL部分
+
+| 信息单元 | 必选 | 类型   | 长度  | 说明                                            |
+| -------- | ---- | ------ | ----- | ----------------------------------------------- |
+| _apiname | 是   | String | 1-32  | 接口名，固定值：user.payment.getPaymentInfoById |
+| mtoken   | 是   | String | 32    | 用户登录令牌,由后台生成返回给前端               |
+| cc       | 是   | Int    | 10    | 时间戳，调用方生成                              |
+| ck       | 是   | String | 32    | 校验码，调用方生成: md5(时间戳+私钥+ apiname)   |
+| _env     | 否   | String | 1-200 | App环境参数                                     |
+
+-  Body部分
+
+
+| 信息单元 | 必选 | 类型    | 长度 | 说明   |
+| -------- | ---- | ------- | ---- | ------ |
+| type | 是 | tinyint | 1 | 支付方式类型 （1：银行卡， 2：支付宝 ，3：微信支付） |
+| id  | 是   | int | 1-11  | 用户ID |
+
+#### <a name='4213-ouput'>4.2.1.3  输出</a>
+
+```json
+{
+  "code": "200",
+  "msg": "success",
+  "time": "1539667765",
+  "data": {
+    "account_number":"622866402148754396",
+    "account_name":"张龙",
+    "bank_name":"建设银行",
+    "bank_address":"深圳市车公庙支行"
+  }
+}
+
+```
+
+**响应参数说明**
+
+| 信息单元       | 类型   | 长度  | 说明                     |
+| -------------- | ------ | ----- | ------------------------ |
+| account_number | string | 20    | 银行卡帐号               |
+| account_name   | string | 1-50  | 开户名                   |
+| bank_name      | string | 1-50  | 开户支行                 |
+| bank_address   | string | 1-100 | 开户支行所在地址         |
+
+```json
+{
+  "code": "200",
+  "msg": "success",
+  "time": "1539667765",
+  "data": {
+    "account_number":"15665544556",
+    "qrcode":"http://domain/images/alipay/qrcode/15665544556.png"
+  }
+}
+
+```
+
+**响应参数说明**
+
+| 信息单元       | 类型   | 长度  | 说明                      |
+| -------------- | ------ | ----- | ------------------------- |
+| account_number | string | 20    | 支付宝/微信支付帐号       |
+| qrcode         | string | 1-100 | 支付宝/微信支付收款二维码 |
+
+
+
+
+## <a name='43-coin-management'>4.3 币种管理</a>
+
+### <a name='431-get-coin-info-by-id'>4.3.1  获取币种详情信息</a>
+
+#### <a name='4311-function-description'>4.3.1.1  功能说明</a>
+通过币种ID获取币种详情信息。
+
+#### <a name='4312-input'>4.3.1.2  输入</a>
 
 **Request URL:**
 
@@ -355,7 +451,7 @@ http://IP:PORT/?_apiname=coin.coin.getCoinInfoById&mtoken=e856f9453a657db361881a
 | -------- | ---- | ------- | ---- | ------ |
 | coin_id  | 是   | tinyint | 1-3  | 币种ID |
 
-#### <a name='4213-ouput'>4.2.1.3  输出</a>
+#### <a name='4313-ouput'>4.3.1.3  输出</a>
 
 ```json
 {
@@ -392,12 +488,12 @@ http://IP:PORT/?_apiname=coin.coin.getCoinInfoById&mtoken=e856f9453a657db361881a
 | selling_price  | decimal | 1-20  | 卖出单价        |
 
 
-### <a name='422-get-c2c-coin-list'>4.2.2  获取支持C2C交易的币种列表</a>
+### <a name='432-get-c2c-coin-list'>4.3.2  获取支持C2C交易的币种列表</a>
 
-#### <a name='4221-function-description'>4.2.2.1  功能说明</a>
+#### <a name='4321-function-description'>4.3.2.1  功能说明</a>
 获取币种列表信息。
 
-#### <a name='4222-input'>4.2.2.2  输入</a>
+#### <a name='4322-input'>4.3.2.2  输入</a>
 
 **Request URL:**
 
@@ -433,7 +529,7 @@ http://IP:PORT/?_apiname=coin.coin.getC2CCoinList&mtoken=e856f9453a657db361881ae
 | -------- | ---- | ------- | ---- | ----------------------------------- |
 | is_c2c   | 是   | tinyint | 1    | 是否支持C2C交易  0：不支持，1：支持 |
 
-#### <a name='4223-ouput'>4.2.2.3  输出</a>
+#### <a name='4323-ouput'>4.3.2.3  输出</a>
 
 ```json
 {
@@ -483,14 +579,14 @@ http://IP:PORT/?_apiname=coin.coin.getC2CCoinList&mtoken=e856f9453a657db361881ae
 | -------- | ------ | ---- | ---------- |
 | list     | Object | 1+   | 列表结果集 |
 
-## <a name='43-c2c-order-management'>4.3 C2C订单管理</a>
+## <a name='44-c2c-order-management'>4.4 C2C订单管理</a>
 
-### <a name='431-add-order'>4.3.1 提交订单（委托买入/卖出）</a>
+### <a name='441-add-order'>4.4.1 提交订单（委托买入/卖出）</a>
 
-#### <a name='4311-function-description'>4.3.1.1  功能说明</a>
+#### <a name='4411-function-description'>4.4.1.1  功能说明</a>
 提交委托买入/卖出相关的订单数据。
 
-#### <a name='4312-input'>4.3.1.2  输入</a>
+#### <a name='4412-input'>4.4.1.2  输入</a>
 
 **Request URL:**
 
@@ -529,7 +625,7 @@ http://IP:PORT/?_apiname=order.order.addOrder&mtoken=e856f9453a657db361881aebd78
 | type     | 是   | tinyint | 1    | 类型  1：委托买入，2：委托卖出 |
 
 
-#### <a name='4313-ouput'>4.3.1.3  输出</a>
+#### <a name='4413-ouput'>4.4.1.3  输出</a>
 
 ```json
 {
@@ -548,12 +644,12 @@ http://IP:PORT/?_apiname=order.order.addOrder&mtoken=e856f9453a657db361881aebd78
 | -------- | ------ | ---- | ---------- |
 | order_no | 是   | String | 20   |
 
-### <a name='432-get-order-info'>4.3.2 获取订单详情</a>
+### <a name='442-get-order-info'>4.4.2 获取订单详情</a>
 
-#### <a name='4321-function-description'>4.3.2.1  功能说明</a>
+#### <a name='4421-function-description'>4.4.2.1  功能说明</a>
 获取订单详情数据。
 
-#### <a name='4322-input'>4.3.2.2  输入</a>
+#### <a name='4422-input'>4.4.2.2  输入</a>
 
 **Request URL:**
 
@@ -590,7 +686,7 @@ http://IP:PORT/?_apiname=order.order.getOrderInfo&mtoken=e856f9453a657db361881ae
 | order_no | 是   | String | 20   | 订单号  |
 
 
-#### <a name='4323-ouput'>4.3.2.3  输出</a>
+#### <a name='4423-ouput'>4.4.2.3  输出</a>
 
 ```json
 {
@@ -624,18 +720,18 @@ http://IP:PORT/?_apiname=order.order.getOrderInfo&mtoken=e856f9453a657db361881ae
 | reference_no | string | 32 | 参考号 |
 | buyer_id | int | 1-11 | 买方ID |
 | seller_id | int | 1-11 | 卖方ID |
-| payment_method | tinyint | 1 | 交易支付方式（1：银行卡， 2：支付宝 ，3：微信） |
+| payment_method | tinyint | 1 | 交易支付方式（1：银行卡， 2：支付宝 ，3：微信支付） |
 | payment_account_id | int | 1-11 | 交易帐户ID|
 | status   | tinyint | 1    | 订单状态（0：待付款， 1：已付款，2：交易完成， 3：交易关闭） |
 
 
 
-### <a name='433-update-order-status'>4.3.3 更新订单交易状态</a>
+### <a name='443-update-order-status'>4.4.3 更新订单交易状态</a>
 
-#### <a name='4321-function-description'>4.3.3.1  功能说明</a>
+#### <a name='4421-function-description'>4.4.3.1  功能说明</a>
 更新订单的交易状态。
 
-#### <a name='4322-input'>4.3.3.2  输入</a>
+#### <a name='4422-input'>4.4.3.2  输入</a>
 
 **Request URL:**
 
@@ -673,7 +769,7 @@ http://IP:PORT/?_apiname=order.order.updateOrderStatus&mtoken=e856f9453a657db361
 | status   | 是   | tinyint | 1    | 订单状态（0：待付款， 1：用户已付款， 2：公司已付款 ，3：交易完成， 4：已取消） |
 
 
-#### <a name='4323-ouput'>4.3.3.3  输出</a>
+#### <a name='4423-ouput'>4.4.3.3  输出</a>
 
 ```json
 {
