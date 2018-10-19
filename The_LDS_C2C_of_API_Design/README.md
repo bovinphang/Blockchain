@@ -65,12 +65,17 @@ LDS交易所C2C接口规范
      * [4.2.1.1 功能说明](#4211-function-description)
      * [4.2.1.2 输入](#4212-input)
      * [4.2.1.3 输出](#4213-ouput)
-  * [4.2.2 更新订单交易状态](#422-update-order-status)
+  * [4.2.2 获取订单详情](#422-get-order-info)
      * [4.2.2.1 功能说明](#4221-function-description)
      * [4.2.2.2 输入](#4222-input)
      * [4.2.2.3 输出](#4223-ouput)
+  * [4.2.3 更新订单交易状态](#423-update-order-status)
+     * [4.2.3.1 功能说明](#4231-function-description)
+     * [4.2.3.2 输入](#4232-input)
+     * [4.2.3.3 输出](#4233-ouput)
 
 **[5. 附录](#5-appendix)**
+
 * [5.1 接口全局返回说明](#51-interface-global-return-description)
 * [5.2 错误码对应信息](#52-error-code)
 * [5.3 JSON简介](#53-json-introduction)
@@ -290,14 +295,14 @@ http://IP:PORT/?_apiname=coin.coin.getCoinInfoById&mtoken=e856f9453a657db361881a
 | 信息单元       | 类型    | 长度  | 说明            |
 | -------------- | ------- | ----- | --------------- |
 | coin_id        | Int     | 1-3   | 币种ID          |
-| coinname       | varchar | 1-200 | 币种名称        |
-| coinname_ch    | varchar | 1-200 | 币种名称-中文   |
-| coinname_abb   | varchar | 1-60  | 币种简称        |
-| descr          | text    | 0     | 币种描述        |
-| buying_amount  | decimal | 1-20  | C2C最低买入金额 |
-| selling_amount | decimal | 1-20  | C2C最低卖出金额 |
-| buying_price   | decimal | 1-20  | 买入单价        |
-| selling_price  | decimal | 1-20  | 卖出单价        |
+| coinname       | Varchar | 1-200 | 币种名称        |
+| coinname_ch    | Varchar | 1-200 | 币种名称-中文   |
+| coinname_abb   | Varchar | 1-60  | 币种简称        |
+| descr          | Text    | 0     | 币种描述        |
+| buying_amount  | Decimal | 1-20  | C2C最低买入金额 |
+| selling_amount | Decimal | 1-20  | C2C最低卖出金额 |
+| buying_price   | Decimal | 1-20  | 买入单价        |
+| selling_price  | Decimal | 1-20  | 卖出单价        |
 
 
 ### <a name='412-get-c2c-coin-list'>4.1.2  获取支持C2C交易的币种列表</a>
@@ -393,17 +398,17 @@ http://IP:PORT/?_apiname=coin.coin.getC2CCoinList&mtoken=e856f9453a657db361881ae
 
 ## <a name='42-c2c-order-management'>4.2 C2C订单管理</a>
 
-### <a name='421-add-order'>4.2.1 提交订单（委托买入）</a>
+### <a name='421-add-order'>4.2.1 提交订单（委托买入/卖出）</a>
 
 #### <a name='4211-function-description'>4.2.1.1  功能说明</a>
-提交委托买入相关的订单数据。
+提交委托买入/卖出相关的订单数据。
 
 #### <a name='4212-input'>4.2.1.2  输入</a>
 
 **Request URL:**
 
 ```http
-http://IP:PORT/?_apiname=oder.oder.addOder&mtoken=e856f9453a657db361881aebd78351af&cc=1539659992&ck=b7d7662bd8771012810857e2b9656bf5&_env={}
+http://IP:PORT/?_apiname=order.order.addOrder&mtoken=e856f9453a657db361881aebd78351af&cc=1539659992&ck=b7d7662bd8771012810857e2b9656bf5&_env={}
 ```
 
 **Request Method:** `POST`
@@ -413,7 +418,7 @@ http://IP:PORT/?_apiname=oder.oder.addOder&mtoken=e856f9453a657db361881aebd78351
 **Request Body:**
 
 ```json
-{"coin_id":"1","buy_number":"10000"}
+{"coin_id":"1","buy_number":"10000","type":"1"}
 ```
 
  **请求参数说明：**
@@ -430,10 +435,11 @@ http://IP:PORT/?_apiname=oder.oder.addOder&mtoken=e856f9453a657db361881aebd78351
 
 -  Body部分
 
-| 信息单元   | 必选 | 类型  | 长度 | 说明     |
-| ---------- | ---- | ----- | ---- | -------- |
-| coin_id    | 是   | Int   | 1-3  | 币种ID   |
-| buy_number | 是   | float | 1-13 | 买入数量 |
+| 信息单元   | 必选 | 类型  | 长度 | 说明                           |
+| ---------- | ---- | ----- | ---- | ------------------------------ |
+| coin_id    | 是   | Int   | 1-3  | 币种ID                         |
+| buy_number | 是   | Float | 1-13 | 买入/卖出数量                  |
+| type       | 是   | Int   | 1    | 类型  1：委托买入，2：委托卖出 |
 
 
 #### <a name='4213-ouput'>4.2.1.3  输出</a>
@@ -444,16 +450,90 @@ http://IP:PORT/?_apiname=oder.oder.addOder&mtoken=e856f9453a657db361881aebd78351
   "msg": "success",
   "time": "1539667765",
   "data": {
-    "buying_price": "10.00",
-    "buying_volume": "1000",
+    "order_no":"c20181018999"
+  }
+}
+```
+
+**响应参数说明**
+
+| 信息单元 | 类型   | 长度 | 说明       |
+| -------- | ------ | ---- | ---------- |
+| order_no | 是   | String | 20   |
+
+### <a name='422-get-order-info'>4.2.2 获取订单详情</a>
+
+#### <a name='4221-function-description'>4.2.2.1  功能说明</a>
+获取订单详情数据。
+
+#### <a name='4222-input'>4.2.2.2  输入</a>
+
+**Request URL:**
+
+```http
+http://IP:PORT/?_apiname=order.order.getOrderInfo&mtoken=e856f9453a657db361881aebd78351af&cc=1539659992&ck=b7d7662bd8771012810857e2b9656bf5&_env={}
+```
+
+**Request Method:** `POST`
+
+**Accept:** `application/json`
+
+**Request Body:**
+
+```json
+{"order_no":"c20181018999"}
+```
+
+ **请求参数说明：**
+
+- URL部分
+
+| 信息单元 | 必选 | 类型   | 长度  | 说明                                          |
+| -------- | ---- | ------ | ----- | --------------------------------------------- |
+| _apiname | 是   | String | 1-32  | 接口名，固定值：order.order.getOrderInfo      |
+| mtoken   | 是   | String | 32    | 用户登录令牌,由后台生成返回给前端             |
+| cc       | 是   | Int    | 10    | 时间戳，调用方生成                            |
+| ck       | 是   | String | 32    | 校验码，调用方生成: md5(时间戳+私钥+ apiname) |
+| _env     | 否   | String | 1-200 | App环境参数                                   |
+
+-  Body部分
+
+| 信息单元   | 必选 | 类型  | 长度 | 说明                           |
+| ---------- | ---- | ----- | ---- | ------------------------------ |
+| order_no | 是   | String | 20   | 订单号  |
+
+
+#### <a name='4223-ouput'>4.2.2.3  输出</a>
+
+```json
+{
+  "code": "200",
+  "msg": "success",
+  "time": "1539667765",
+  "data": {
+    "order_no":"c20181018999",
+    "type":"1",
+    "price": "10.00",
+    "volume": "1000",
     "total_price": "10000.00",
     "reference_no": "rno10sdafasf",
+    "status":"0",
+    "buyer_info": {
+        "name": "张龙",
+        "mobile_phone": "13890749562",
+        "bank_account":[
+            {"account_number":"622866402148754396","account_name":"张龙","bank_name":"建设银行","bank_address":"深圳市车公庙支行"},
+            {"account_number":"666325853067623014","account_name":"张龙","bank_name":"民生银行","bank_address":"深圳市福田支行"}
+         ],
+		"alipay":{"account_number":"zhanglong121","qrcode":"http://domain/images/alipay/qrcode/15665544556.png"},
+		"weixin":{"account_number":"zhanglong168","qrcode":"http://domain/images/alipay/qrcode/15665544556.png"}
+    },
     "seller_info": {
         "name": "李娟",
         "mobile_phone": "13636486689",
         "bank_account":[
-            {"account_number":"621792076063967955","bank_name":"招商银行","account_name":"李娟","bank_address":"深圳市高新园支行"},
-            {"account_number":"663693326476892015","bank_name":"农业银行","account_name":"李德顺","bank_address":"深圳市宝安支行"}
+            {"account_number":"621792076063967955","account_name":"李娟","bank_name":"招商银行","bank_address":"深圳市高新园支行"},
+            {"account_number":"663693326476892015","account_name":"李德顺","bank_name":"农业银行","bank_address":"深圳市宝安支行"}
          ],
 		"alipay":{"account_number":"15665544556","qrcode":"http://domain/images/alipay/qrcode/15665544556.png"},
 		"weixin":{"account_number":"15665544556","qrcode":"http://domain/images/alipay/qrcode/15665544556.png"}
@@ -466,29 +546,33 @@ http://IP:PORT/?_apiname=oder.oder.addOder&mtoken=e856f9453a657db361881aebd78351
 
 | 信息单元 | 类型   | 长度 | 说明       |
 | -------- | ------ | ---- | ---------- |
-| buying_price   | decimal | 1-20  | 买入单价        |
-| buying_volume | Int | 1-11  | 买入数量   |
-| total_price | decimal | 1-20 | 买入总价 |
+| order_no | String | 20   | 订单号  |
+| type    |Int   | 1    | 类型  1：委托买入，2：委托卖出 |
+| price   | decimal | 1-20  | 买入/卖出单价     |
+| volume | Int | 1-11  | 买入/卖出数量 |
+| total_price | Decimal | 1-20 | 买入/卖出总价 |
 | reference_no | String | 32 | 参考号 |
+| status   | Int    | 1    | 订单状态（0：待付款， 1：用户已付款， 2：公司已付款 ，3：交易完成， 4：已取消） |
+| buyer_info | Object | 1+ | 买方信息 |
 | seller_info | Object | 1+ | 卖方信息 |
-| name | String | 1-20 | 卖方姓名 |
-| mobile_phone | Number | 11 | 卖方手机号 |
-| bank_account | Object | 1+ | 卖方银行卡帐号信息 |
-| alipay | Object | 1 | 卖方支付宝帐号信息 |
-| weixin | Object | 1 | 卖方微信帐号信息 |
+| name | String | 1-20 | 买方/卖方姓名 |
+| mobile_phone | Number | 11 | 买方/卖方手机号 |
+| bank_account | Object | 1+ | 买方/卖方银行卡帐号信息 |
+| alipay | Object | 1 | 买方/卖方支付宝帐号信息 |
+| weixin | Object | 1 | 买方/卖方微信帐号信息 |
 
 
-### <a name='422-update-order-status'>4.2.2 更新订单交易状态</a>
+### <a name='423-update-order-status'>4.2.3 更新订单交易状态</a>
 
-#### <a name='4221-function-description'>4.2.2.1  功能说明</a>
+#### <a name='4221-function-description'>4.2.3.1  功能说明</a>
 更新订单的交易状态。
 
-#### <a name='4222-input'>4.2.2.2  输入</a>
+#### <a name='4222-input'>4.2.3.2  输入</a>
 
 **Request URL:**
 
 ```http
-http://IP:PORT/?_apiname=oder.oder.updateOrderStatus&mtoken=e856f9453a657db361881aebd78351af&cc=1539659992&ck=b7d7662bd8771012810857e2b9656bf5&_env={}
+http://IP:PORT/?_apiname=order.order.updateOrderStatus&mtoken=e856f9453a657db361881aebd78351af&cc=1539659992&ck=b7d7662bd8771012810857e2b9656bf5&_env={}
 ```
 
 **Request Method:** `POST`
@@ -498,7 +582,7 @@ http://IP:PORT/?_apiname=oder.oder.updateOrderStatus&mtoken=e856f9453a657db36188
 **Request Body:**
 
 ```json
-{"oder_no":"c20181018999","status":"1"}
+{"order_no":"c20181018999","status":"1"}
 ```
 
  **请求参数说明：**
@@ -507,7 +591,7 @@ http://IP:PORT/?_apiname=oder.oder.updateOrderStatus&mtoken=e856f9453a657db36188
 
 | 信息单元 | 必选 | 类型   | 长度  | 说明                                          |
 | -------- | ---- | ------ | ----- | --------------------------------------------- |
-| _apiname | 是   | String | 1-32  | 接口名，固定值：oder.oder.addOder     |
+| _apiname | 是   | String | 1-32  | 接口名，固定值：order.order.updateOrderStatus |
 | mtoken   | 是   | String | 32    | 用户登录令牌,由后台生成返回给前端             |
 | cc       | 是   | Int    | 10    | 时间戳，调用方生成                            |
 | ck       | 是   | String | 32    | 校验码，调用方生成: md5(时间戳+私钥+ apiname) |
@@ -516,12 +600,12 @@ http://IP:PORT/?_apiname=oder.oder.updateOrderStatus&mtoken=e856f9453a657db36188
 -  Body部分
 
 | 信息单元 | 必选 | 类型   | 长度 | 说明                                                         |
-| -------- | ---- | ------ | ---- | ------------------------------------------------------------ |
-| oder_no  | 是   | String | 20   | 订单号                                                       |
+| -------- | ---- | ------ | ---- | ---------------------- |
+| order_no | 是   | String | 20   | 订单号  |
 | status   | 是   | Int    | 1    | 订单状态（0：待付款， 1：用户已付款， 2：公司已付款 ，3：交易完成， 4：已取消） |
 
 
-#### <a name='4223-ouput'>4.2.2.3  输出</a>
+#### <a name='4223-ouput'>4.2.3.3  输出</a>
 
 ```json
 {
