@@ -418,7 +418,7 @@ http://IP:PORT/?_apiname=order.order.addOrder&mtoken=e856f9453a657db361881aebd78
 **Request Body:**
 
 ```json
-{"coin_id":"1","buy_number":"10000","type":"1"}
+{"coin_id":"1","volume":"10000","type":"1"}
 ```
 
  **请求参数说明：**
@@ -427,7 +427,7 @@ http://IP:PORT/?_apiname=order.order.addOrder&mtoken=e856f9453a657db361881aebd78
 
 | 信息单元 | 必选 | 类型   | 长度  | 说明                                          |
 | -------- | ---- | ------ | ----- | --------------------------------------------- |
-| _apiname | 是   | String | 1-32  | 接口名，固定值：oder.oder.addOder     |
+| _apiname | 是   | String | 1-32  | 接口名，固定值：order.order.addOrder          |
 | mtoken   | 是   | String | 32    | 用户登录令牌,由后台生成返回给前端             |
 | cc       | 是   | Int    | 10    | 时间戳，调用方生成                            |
 | ck       | 是   | String | 32    | 校验码，调用方生成: md5(时间戳+私钥+ apiname) |
@@ -435,11 +435,11 @@ http://IP:PORT/?_apiname=order.order.addOrder&mtoken=e856f9453a657db361881aebd78
 
 -  Body部分
 
-| 信息单元   | 必选 | 类型  | 长度 | 说明                           |
-| ---------- | ---- | ----- | ---- | ------------------------------ |
-| coin_id    | 是   | Int   | 1-3  | 币种ID                         |
-| buy_number | 是   | Float | 1-13 | 买入/卖出数量                  |
-| type       | 是   | Int   | 1    | 类型  1：委托买入，2：委托卖出 |
+| 信息单元 | 必选 | 类型  | 长度 | 说明                           |
+| -------- | ---- | ----- | ---- | ------------------------------ |
+| coin_id  | 是   | Int   | 1-3  | 币种ID                         |
+| volume   | 是   | Float | 1-13 | 买入/卖出数量                  |
+| type     | 是   | Int   | 1    | 类型  1：委托买入，2：委托卖出 |
 
 
 #### <a name='4213-ouput'>4.2.1.3  输出</a>
