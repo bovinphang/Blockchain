@@ -356,9 +356,11 @@ http://IP:PORT/?_apiname=user.payment.getPaymentInfoById&mtoken=e856f9453a657db3
 | 信息单元 | 必选 | 类型    | 长度 | 说明   |
 | -------- | ---- | ------- | ---- | ------ |
 | type | 是 | tinyint | 1 | 支付方式类型 （1：银行卡， 2：支付宝 ，3：微信支付） |
-| id  | 是   | int | 1-11  | 用户ID |
+| id  | 是   | int | 1-11  | 支付方式帐户ID |
 
 #### <a name='4213-ouput'>4.2.1.3  输出</a>
+
+银行卡：
 
 ```json
 {
@@ -384,6 +386,7 @@ http://IP:PORT/?_apiname=user.payment.getPaymentInfoById&mtoken=e856f9453a657db3
 | bank_name      | string | 1-50  | 开户支行                 |
 | bank_address   | string | 1-100 | 开户支行所在地址         |
 
+支付宝或微信：
 ```json
 {
   "code": "200",
