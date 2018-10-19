@@ -220,7 +220,7 @@ _apiname的值对大小不敏感。
 
 # <a name='3-user'>3. 接入方</a>
 
- ![1539842382195](./images/1539842382195.png)
+ ![interface_user.png](./images/interface_user.png)
 
 # <a name='4-interface'>4. 接口</a>
 
