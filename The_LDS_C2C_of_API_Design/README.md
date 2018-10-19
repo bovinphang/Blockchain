@@ -29,14 +29,54 @@ LDS交易所C2C接口规范
 
 
 
+目录
 ---------------
 
+**[1 序言](#1-preface)**
+* [1.1 背景](#11-background)
+* [1.2 编写目的](#12-purpose-of-writing)
+* [1.3 术语与缩略词](#13-terms-and-abbreviations)
+* [1.4 对象及范围](#14-object-and-scope)
+* [1.5 参考资料](#15-reference-material)
 
+**[2. 接口总体概述](#2-overview-of-the-interface)**
+* [2.1 协议概述](#21-protocol-overview)
+* [2.2 接口设计规则](#22-interface-design-rules)
+* [2.3 协议数据格式](#23-protocol-data-format)
+* [2.4 请求规则](#24-request-rule)
+* [2.5 应答规则](#25-response-rule)
+* [2.6 命名及指令规则](#26-naming-and-instruction-rules)
+  * [2.6.1  _apiname命名规则](#261-apiname-naming-rules)
 
+**[3. 接入方](#3-user)**
 
-[TOC]
+**[4. 接口](#4-interface)**
+* [4.1 币种管理](#41-coin-management)
+  * [4.1.1 获取币种详情信息](#411-get-coin-info-by-id)
+     * [4.1.1.1 功能说明](#4111-function-description)
+     * [4.1.1.2 输入](#4112-input)
+     * [4.1.1.3 输出](#4113-ouput)
+  * [4.1.2 获取支持C2C交易的币种列表](#412-get-c2c-coin-list)
+     * [4.1.2.1 功能说明](#4121-function-description)
+     * [4.1.2.2 输入](#4122-input)
+     * [4.1.2.3 输出](#4123-ouput)
+* [4.2 C2C订单管理](#42-c2c-order-management)
+  * [4.2.1 提交订单（委托买入）](#421-add-order)
+     * [4.2.1.1 功能说明](#4211-function-description)
+     * [4.2.1.2 输入](#4212-input)
+     * [4.2.1.3 输出](#4213-ouput)
+  * [4.2.2 更新订单交易状态](#422-update-order-status)
+     * [4.2.2.1 功能说明](#4221-function-description)
+     * [4.2.2.2 输入](#4222-input)
+     * [4.2.2.3 输出](#4223-ouput)
 
----------------
+**[5. 附录](#5-appendix)**
+* [5.1 接口全局返回说明](#51-interface-global-return-description)
+* [5.2 错误码对应信息](#52-error-code)
+* [5.3 JSON简介](#53-json-introduction)
+  * [5.3.1 JSON的结构](#531-json-structure)
+  * [5.3.2 JSON具有的形式](#532-json-shape)
+
 
 
 
@@ -122,6 +162,7 @@ LDS交易所C2C接口规范
 ​       请求参数由以下两部分组成：
 
 1. URL部分：
+
 |    参数    | 说明                                       | 是否必传 |
 | :------: | :--------------------------------------- | :--: |
 | _apiname | 后端调用接口名                                  |  是   |
@@ -129,7 +170,6 @@ LDS交易所C2C接口规范
 |  cc和ck   | cc=当前时间的Unix 时间戳；ck=md5(当前时间的Unix 时间戳+私钥+ apiname)，用于校验请求的合法性以及防止重复性请求 |  是   |
 |   _env   | App环境参数 {"_v":"A1.0.0\| I1.0.0",app版本,A开头表示Android端,I开头表示ios端,"_lon":"经度","_lat":"纬度","_network":"手机网络""_model":"手机型号"如:iphone7s} |  是   |
 |  其他业务参数  |                                          |  否   |
-
 
 2. POST 数据BODY部分： 
 - 无：此情况Content-Type必须为空或者"application/x-www-form-urlencoded"
@@ -179,7 +219,7 @@ _apiname的值对大小不敏感。
 
 # <a name='4-interface'>4. 接口</a>
 
-## <a name='4-coin-management'>4.1 币种管理</a>
+## <a name='41-coin-management'>4.1 币种管理</a>
 
 ### <a name='411-get-coin-info-by-id'>4.1.1  获取币种详情信息</a>
 
