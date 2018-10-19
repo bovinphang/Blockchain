@@ -512,15 +512,32 @@ http://IP:PORT/?_apiname=order.order.getOrderInfo&mtoken=e856f9453a657db361881ae
   "time": "1539667765",
   "data": {
     "order_no":"c20181018999",
-    "order_time": "2018-07-25 14:38:22",
+    "type":"1",
     "price": "10.00",
     "volume": "1000",
     "total_price": "10000.00",
-    "buyer_id": "101",
-    "seller_id": "1002",
-    "payment_method": "1",
-    "payment_account_id": "20010",
-    "status":"0"
+    "reference_no": "rno10sdafasf",
+    "status":"0",
+    "buyer_info": {
+        "name": "张龙",
+        "mobile_phone": "13890749562",
+        "bank_account":[
+            {"account_number":"622866402148754396","account_name":"张龙","bank_name":"建设银行","bank_address":"深圳市车公庙支行"},
+            {"account_number":"666325853067623014","account_name":"张龙","bank_name":"民生银行","bank_address":"深圳市福田支行"}
+         ],
+		"alipay":{"account_number":"zhanglong121","qrcode":"http://domain/images/alipay/qrcode/15665544556.png"},
+		"weixin":{"account_number":"zhanglong168","qrcode":"http://domain/images/alipay/qrcode/15665544556.png"}
+    },
+    "seller_info": {
+        "name": "李娟",
+        "mobile_phone": "13636486689",
+        "bank_account":[
+            {"account_number":"621792076063967955","account_name":"李娟","bank_name":"招商银行","bank_address":"深圳市高新园支行"},
+            {"account_number":"663693326476892015","account_name":"李德顺","bank_name":"农业银行","bank_address":"深圳市宝安支行"}
+         ],
+		"alipay":{"account_number":"15665544556","qrcode":"http://domain/images/alipay/qrcode/15665544556.png"},
+		"weixin":{"account_number":"15665544556","qrcode":"http://domain/images/alipay/qrcode/15665544556.png"}
+    }
   }
 }
 ```
@@ -530,7 +547,6 @@ http://IP:PORT/?_apiname=order.order.getOrderInfo&mtoken=e856f9453a657db361881ae
 | 信息单元 | 类型   | 长度 | 说明       |
 | -------- | ------ | ---- | ---------- |
 | order_no | string | 20   | 订单号  |
-| order_time | datetime | 0 | 订单生成时间 |
 | price   | decimal | 1-20  | 成交单价     |
 | volume | int | 1-11  | 成交数量 |
 | total_price | decimal | 1-20 | 成交总价 |
@@ -539,7 +555,8 @@ http://IP:PORT/?_apiname=order.order.getOrderInfo&mtoken=e856f9453a657db361881ae
 | seller_id | int | 1-11 | 卖方ID |
 | payment_method | tinyint | 1 | 交易支付方式（1：银行卡， 2：支付宝 ，3：微信） |
 | payment_account_id | int | 1-11 | 交易帐户ID|
-| status   | tinyint | 1    | 订单状态（0：待付款， 1：已付款，2：交易完成， 3：交易关闭） |
+| order_time | datetime | 0 | 订单生成时间 |
+| status   | int | 1    | 订单状态（0：待付款， 1：用户已付款， 2：公司已付款 ，3：交易完成， 4：已取消） |
 
 
 
