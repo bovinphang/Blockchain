@@ -705,7 +705,8 @@ http://IP:PORT/?_apiname=order.order.getOrderInfo&mtoken=e856f9453a657db361881ae
     "buyer_id": "101",
     "seller_id": "1002",
     "payment_method": "1",
-    "payment_account_id": "20010",
+    "buyer_payment_account": "20010",
+    "seller_payment_account": "51135",
     "status":"0"
   }
 }
@@ -724,7 +725,8 @@ http://IP:PORT/?_apiname=order.order.getOrderInfo&mtoken=e856f9453a657db361881ae
 | buyer_id | int | 1-11 | 买方ID |
 | seller_id | int | 1-11 | 卖方ID |
 | payment_method | tinyint | 1 | 交易支付方式（1：银行卡， 2：支付宝 ，3：微信支付） |
-| payment_account_id | int | 1-11 | 交易帐户ID|
+| buyer_payment_account | int | 1-11 | 买方交易帐户ID |
+| seller_payment_account | int | 1-11 | 卖方交易帐户ID                                               |
 | status   | tinyint | 1    | 订单状态（0：待付款， 1：已付款，2：交易完成， 3：交易关闭） |
 
 
