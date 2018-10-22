@@ -81,6 +81,10 @@ LDS交易所C2C接口规范
      * [4.4.3.1 功能说明](#4431-function-description)
      * [4.4.3.2 输入](#4432-input)
      * [4.4.3.3 输出](#4433-ouput)
+  * [4.4.4 获取订单列表](#444-get-order-list)
+     * [4.4.4.1 功能说明](#4441-function-description)
+     * [4.4.4.2 输入](#4442-input)
+     * [4.4.4.3 输出](#4443-ouput)
 
 **[5. 附录](#5-appendix)**
 
@@ -549,7 +553,7 @@ http://IP:PORT/?_apiname=coin.coin.getC2CCoinList&mtoken=e856f9453a657db361881ae
         "buying_amount": "0.00000000",
         "selling_amount": "0.00000000",
         "buying_price": "0.00000000",
-        "selling_price": "0.00000000",
+        "selling_price": "0.00000000"
       },
       {
         "coin_id": "2",
@@ -559,7 +563,7 @@ http://IP:PORT/?_apiname=coin.coin.getC2CCoinList&mtoken=e856f9453a657db361881ae
         "buying_amount": "0.00000000",
         "selling_amount": "0.00000000",
         "buying_price": "0.00000000",
-        "selling_price": "0.00000000",
+        "selling_price": "0.00000000"
       },
       {
         "coin_id": "3",
@@ -569,7 +573,7 @@ http://IP:PORT/?_apiname=coin.coin.getC2CCoinList&mtoken=e856f9453a657db361881ae
         "buying_amount": "0.00000000",
         "selling_amount": "0.00000000",
         "buying_price": "0.00000000",
-        "selling_price": "0.00000000",
+        "selling_price": "0.00000000"
       }
     ]
   }
@@ -667,7 +671,7 @@ http://IP:PORT/?_apiname=order.order.getOrderInfo&mtoken=e856f9453a657db361881ae
 **Request Body:**
 
 ```json
-{"order_no":"c20181018999"}
+{"order_id":"1015"}
 ```
 
  **请求参数说明：**
@@ -698,6 +702,7 @@ http://IP:PORT/?_apiname=order.order.getOrderInfo&mtoken=e856f9453a657db361881ae
   "time": "1539667765",
   "data": {
     "order_no":"c20181018999",
+    "coin_id": "10",
     "price": "10.00",
     "volume": "1000",
     "total_price": "10000.00",
@@ -793,6 +798,142 @@ http://IP:PORT/?_apiname=order.order.updateOrderStatus&mtoken=e856f9453a657db361
 }
 ```
 
+
+### <a name='444-get-order-list'>4.4.4 获取订单列表</a>
+
+#### <a name='4441-function-description'>4.4.4.1  功能说明</a>
+获取订单列表数据。
+
+#### <a name='4442-input'>4.4.4.2  输入</a>
+
+**Request URL:**
+
+```http
+http://IP:PORT/?_apiname=order.order.getOrderList&mtoken=e856f9453a657db361881aebd78351af&cc=1539659992&ck=b7d7662bd8771012810857e2b9656bf5&_env={}
+```
+
+**Request Method:** `POST`
+
+**Accept:** `application/json`
+
+**Request Body:**
+
+```json
+{"user_id":"3","page_size":"20","current_page": "5"}
+```
+
+ **请求参数说明：**
+
+- URL部分
+
+| 信息单元 | 必选 | 类型   | 长度  | 说明                                          |
+| -------- | ---- | ------ | ----- | --------------------------------------------- |
+| _apiname | 是   | String | 1-32  | 接口名，固定值：order.order.getOrderInfo      |
+| mtoken   | 是   | String | 32    | 用户登录令牌,由后台生成返回给前端             |
+| cc       | 是   | Int    | 10    | 时间戳，调用方生成                            |
+| ck       | 是   | String | 32    | 校验码，调用方生成: md5(时间戳+私钥+ apiname) |
+| _env     | 否   | String | 1-200 | App环境参数                                   |
+
+-  Body部分
+
+| 信息单元   | 必选 | 类型  | 长度 | 说明                           |
+| ---------- | ---- | ----- | ---- | ------------------------------ |
+| user_id | 是   | int | 1-11 | 客户ID |
+| page_size | 否 | int | 1-11 | 每页显示记录数，默认为：20条 |
+| current_page | 否 | int | 1-11 | 当前页，默认为：1 |
+
+
+#### <a name='4443-ouput'>4.4.4.3  输出</a>
+
+```json
+{
+  "code": "200",
+  "msg": "success",
+  "time": "1539667765",
+  "data": {
+    "current_page": "5",
+    "page_size": "20",
+    "total_page": "11",
+    "total_record": "218",
+    "list": [
+      {
+        "order_no":"c20181018900",
+        "price": "10.00",
+        "volume": "1000",
+        "total_price": "10000.00",
+        "buyer_id": "3",
+        "seller_id": "1002",
+        "payment_method": "1",
+        "buyer_payment_account": "20010",
+        "seller_payment_account": "51135",
+        "status":"0",
+        "create_time": "2018-07-21 14:38:22",
+        "update_time": "2018-07-22 14:38:22",
+        "end_time": "2018-07-24 14:38:22",
+        "close_time": ""
+      },
+      {
+        "order_no":"c20181018901",
+        "price": "12.00",
+        "volume": "2000",
+        "total_price": "9000.00",
+        "buyer_id": "101",
+        "seller_id": "3",
+        "payment_method": "1",
+        "buyer_payment_account": "22315",
+        "seller_payment_account": "20010",
+        "status":"1",
+        "create_time": "2018-07-25 14:38:22",
+        "update_time": "2018-07-26 14:38:22",
+        "end_time": "2018-07-28 14:38:22",
+        "close_time": ""
+      },
+      {
+        "order_no":"c20181018998",
+        "price": "11.50",
+        "volume": "4000",
+        "total_price": "8000.00",
+        "buyer_id": "3",
+        "seller_id": "1043",
+        "payment_method": "1",
+        "buyer_payment_account": "20010",
+        "seller_payment_account": "51136",
+        "status":"0",
+        "create_time": "2018-06-12 14:38:22",
+        "update_time": "2018-06-16 14:38:22",
+        "end_time": "2018-06-18 14:38:22",
+        "close_time": ""
+      }
+    ]
+  }
+}
+```
+
+**响应参数说明**
+
+| 信息单元 | 类型   | 长度 | 说明       |
+| -------- | ------ | ---- | ---------- |
+| current_page     | int | 1-11   | 当前页 |
+| page_size     | int | 1-11   | 每页显示记录数 |
+| total_page     | int | 1-11  | 总页数 |
+| total_record     | int | 1-11  | 总记录数 |
+| list     | Object | 1+   | 列表结果集 |
+| order_no | string | 20   | 订单号  |
+| coin_id | tinyint | 1-3 | 币种ID |
+| price   | decimal | 1-20  | 成交单价     |
+| volume | int | 1-11  | 成交数量 |
+| total_price | decimal | 1-20 | 成交总价 |
+| reference_no | string | 32 | 参考号 |
+| buyer_id | int | 1-11 | 买方ID |
+| seller_id | int | 1-11 | 卖方ID |
+| payment_method | tinyint | 1 | 交易支付方式（1：银行卡， 2：支付宝 ，3：微信支付） |
+| buyer_payment_account | int | 1-11 | 买方交易帐户ID |
+| seller_payment_account | int | 1-11 | 卖方交易帐户ID                                               |
+| status   | tinyint | 1    | 订单状态（0：待付款， 1：已付款，2：交易成功， 3：交易关闭） |
+| create_time | datetime | 0 | 订单创建时间 |
+| update_time | datetime | 0 | 订单更新时间 |
+| end_time | datetime | 0 | 交易完成时间 |
+| close_time | datetime | 0 | 交易关闭时间 |
 
 
 # <a name='5-appendix'>5. 附录</a>
