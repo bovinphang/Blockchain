@@ -623,7 +623,7 @@ http://IP:PORT/?_apiname=order.order.addOrder&mtoken=e856f9453a657db361881aebd78
 
 | 信息单元 | 必选 | 类型    | 长度 | 说明                           |
 | -------- | ---- | ------- | ---- | ------------------------------ |
-| coin_id  | 是   | int     | 1-3  | 币种ID                         |
+| coin_id  | 是   | tinyint | 1-3  | 币种ID                         |
 | volume   | 是   | float   | 1-13 | 买入/卖出数量                  |
 | type     | 是   | tinyint | 1    | 类型  1：委托买入，2：委托卖出 |
 
@@ -650,7 +650,7 @@ http://IP:PORT/?_apiname=order.order.addOrder&mtoken=e856f9453a657db361881aebd78
 ### <a name='442-get-order-info'>4.4.2 获取订单详情</a>
 
 #### <a name='4421-function-description'>4.4.2.1  功能说明</a>
-获取订单详情数据。
+根据订单ID获取订单详情数据。
 
 #### <a name='4422-input'>4.4.2.2  输入</a>
 
@@ -686,7 +686,7 @@ http://IP:PORT/?_apiname=order.order.getOrderInfo&mtoken=e856f9453a657db361881ae
 
 | 信息单元   | 必选 | 类型  | 长度 | 说明                           |
 | ---------- | ---- | ----- | ---- | ------------------------------ |
-| order_no | 是   | String | 20   | 订单号  |
+| order_id | 是   | int | 1-11 | 订单ID |
 
 
 #### <a name='4423-ouput'>4.4.2.3  输出</a>
@@ -698,7 +698,6 @@ http://IP:PORT/?_apiname=order.order.getOrderInfo&mtoken=e856f9453a657db361881ae
   "time": "1539667765",
   "data": {
     "order_no":"c20181018999",
-    "order_time": "2018-07-25 14:38:22",
     "price": "10.00",
     "volume": "1000",
     "total_price": "10000.00",
@@ -707,7 +706,11 @@ http://IP:PORT/?_apiname=order.order.getOrderInfo&mtoken=e856f9453a657db361881ae
     "payment_method": "1",
     "buyer_payment_account": "20010",
     "seller_payment_account": "51135",
-    "status":"0"
+    "status":"0",
+    "create_time": "2018-07-25 14:38:22",
+    "update_time": "2018-07-26 14:38:22",
+    "end_time": "2018-07-28 14:38:22",
+    "close_time": ""
   }
 }
 ```
@@ -717,7 +720,7 @@ http://IP:PORT/?_apiname=order.order.getOrderInfo&mtoken=e856f9453a657db361881ae
 | 信息单元 | 类型   | 长度 | 说明       |
 | -------- | ------ | ---- | ---------- |
 | order_no | string | 20   | 订单号  |
-| order_time | datetime | 0 | 订单生成时间 |
+| coin_id | tinyint | 1-3 | 币种ID |
 | price   | decimal | 1-20  | 成交单价     |
 | volume | int | 1-11  | 成交数量 |
 | total_price | decimal | 1-20 | 成交总价 |
@@ -727,7 +730,11 @@ http://IP:PORT/?_apiname=order.order.getOrderInfo&mtoken=e856f9453a657db361881ae
 | payment_method | tinyint | 1 | 交易支付方式（1：银行卡， 2：支付宝 ，3：微信支付） |
 | buyer_payment_account | int | 1-11 | 买方交易帐户ID |
 | seller_payment_account | int | 1-11 | 卖方交易帐户ID                                               |
-| status   | tinyint | 1    | 订单状态（0：待付款， 1：已付款，2：交易完成， 3：交易关闭） |
+| status   | tinyint | 1    | 订单状态（0：待付款， 1：已付款，2：交易成功， 3：交易关闭） |
+| create_time | datetime | 0 | 订单创建时间 |
+| update_time | datetime | 0 | 订单更新时间 |
+| end_time | datetime | 0 | 交易完成时间 |
+| close_time | datetime | 0 | 交易关闭时间 |
 
 
 
@@ -751,7 +758,7 @@ http://IP:PORT/?_apiname=order.order.updateOrderStatus&mtoken=e856f9453a657db361
 **Request Body:**
 
 ```json
-{"order_no":"c20181018999","status":"1"}
+{"order_id":"101","status":"1"}
 ```
 
  **请求参数说明：**
@@ -770,8 +777,8 @@ http://IP:PORT/?_apiname=order.order.updateOrderStatus&mtoken=e856f9453a657db361
 
 | 信息单元 | 必选 | 类型    | 长度 | 说明                                                         |
 | -------- | ---- | ------- | ---- | ------------------------------------------------------------ |
-| order_no | 是   | string  | 20   | 订单号                                                       |
-| status   | 是   | tinyint | 1    | 订单状态（0：待付款， 1：用户已付款， 2：公司已付款 ，3：交易完成， 4：已取消） |
+| order_id | 是   | int     | 1-11 | 订单ID                                                       |
+| status   | 是   | tinyint | 1    | 订单状态（0：待付款， 1：已付款， 2：交易成功 ，3：交易完成， 4：交易关闭） |
 
 
 #### <a name='4423-ouput'>4.4.3.3  输出</a>
