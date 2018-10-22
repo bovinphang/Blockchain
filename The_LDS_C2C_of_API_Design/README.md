@@ -828,7 +828,7 @@ http://IP:PORT/?_apiname=order.order.getOrderList&mtoken=e856f9453a657db361881ae
 
 | 信息单元 | 必选 | 类型   | 长度  | 说明                                          |
 | -------- | ---- | ------ | ----- | --------------------------------------------- |
-| _apiname | 是   | String | 1-32  | 接口名，固定值：order.order.getOrderInfo      |
+| _apiname | 是   | String | 1-32  | 接口名，固定值：order.order.getOrderList      |
 | mtoken   | 是   | String | 32    | 用户登录令牌,由后台生成返回给前端             |
 | cc       | 是   | Int    | 10    | 时间戳，调用方生成                            |
 | ck       | 是   | String | 32    | 校验码，调用方生成: md5(时间戳+私钥+ apiname) |
