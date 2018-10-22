@@ -819,7 +819,7 @@ http://IP:PORT/?_apiname=order.order.getOrderList&mtoken=e856f9453a657db361881ae
 **Request Body:**
 
 ```json
-{"user_id":"3","page_size":"20","current_page": "5"}
+{"user_id":"3","current_page": "5","page_size":"20"}
 ```
 
  **请求参数说明：**
@@ -839,8 +839,8 @@ http://IP:PORT/?_apiname=order.order.getOrderList&mtoken=e856f9453a657db361881ae
 | 信息单元   | 必选 | 类型  | 长度 | 说明                           |
 | ---------- | ---- | ----- | ---- | ------------------------------ |
 | user_id | 是   | int | 1-11 | 客户ID |
-| page_size | 否 | int | 1-11 | 每页显示记录数，默认为：20条 |
 | current_page | 否 | int | 1-11 | 当前页，默认为：1 |
+| page_size | 否 | int | 1-11 | 每页显示记录数，默认为：20条 |
 
 
 #### <a name='4443-ouput'>4.4.4.3  输出</a>
@@ -851,8 +851,6 @@ http://IP:PORT/?_apiname=order.order.getOrderList&mtoken=e856f9453a657db361881ae
   "msg": "success",
   "time": "1539667765",
   "data": {
-    "current_page": "5",
-    "page_size": "20",
     "total_page": "11",
     "total_record": "218",
     "list": [
@@ -913,8 +911,6 @@ http://IP:PORT/?_apiname=order.order.getOrderList&mtoken=e856f9453a657db361881ae
 
 | 信息单元 | 类型   | 长度 | 说明       |
 | -------- | ------ | ---- | ---------- |
-| current_page     | int | 1-11   | 当前页 |
-| page_size     | int | 1-11   | 每页显示记录数 |
 | total_page     | int | 1-11  | 总页数 |
 | total_record     | int | 1-11  | 总记录数 |
 | list     | Object | 1+   | 列表结果集 |
