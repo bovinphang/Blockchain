@@ -55,10 +55,22 @@ LDS交易所C2C接口规范
      * [4.1.1.2 输入](#4112-input)
      * [4.1.1.3 输出](#4113-ouput)
 * [4.2 支付方式管理](#42-payment-management)
-  * [4.2.1 获取支付方式详情信息](#421-get-payment-info-by-id)
+  * [4.2.1 添加支付方式](#421-add-payment)
      * [4.2.1.1 功能说明](#4211-function-description)
      * [4.2.1.2 输入](#4212-input)
      * [4.2.1.3 输出](#4213-ouput)
+  * [4.2.2 更新支付方式](#422-update-payment)
+     * [4.2.2.1 功能说明](#4221-function-description)
+     * [4.2.2.2 输入](#4222-input)
+     * [4.2.2.3 输出](#4223-ouput)
+  * [4.2.3 删除支付方式](#423-del-payment)
+     * [4.2.3.1 功能说明](#4231-function-description)
+     * [4.2.3.2 输入](#4232-input)
+     * [4.2.3.3 输出](#4233-ouput)
+  * [4.2.4 获取支付方式详情信息](#424-get-payment-info-by-id)
+     * [4.2.4.1 功能说明](#4241-function-description)
+     * [4.2.4.2 输入](#4242-input)
+     * [4.2.4.3 输出](#4243-ouput)
 * [4.3 币种管理](#43-coin-management)
   * [4.3.1 获取币种详情信息](#431-get-coin-info-by-id)
      * [4.3.1.1 功能说明](#4311-function-description)
@@ -319,12 +331,244 @@ http://IP:PORT/?_apiname=user.user.getUserInfoById&mtoken=e856f9453a657db361881a
 
 ## <a name='42-payment-management'>4.2 支付方式管理</a>
 
-### <a name='421-get-payment-info-by-id'>4.2.1  获取支付方式详情信息</a>
+### <a name='421-add-payment'>4.2.1  添加支付方式</a>
 
 #### <a name='4211-function-description'>4.2.1.1  功能说明</a>
-通过支付方式的帐户ID获取其详情信息。
+添加支付方式。
 
 #### <a name='4212-input'>4.2.1.2  输入</a>
+
+**Request URL:**
+
+```http
+http://IP:PORT/?_apiname=user.payment.addPayment&mtoken=e856f9453a657db361881aebd78351af&cc=1539659992&ck=b7d7662bd8771012810857e2b9656bf5&_env={}
+```
+
+**Request Method:** `POST`
+
+**Accept:** `application/json`
+
+**Request Body:**
+银行卡：
+```json
+{
+  "type":"1",
+  "account_number":"622866402148754396",
+  "account_name":"张龙",
+  "bank_name":"建设银行",
+  "bank_address":"深圳市车公庙支行"
+}
+```
+支付宝：
+```json
+{
+  "type":"2",
+  "account_number":"15665544556",
+  "qrcode":"http://domain/images/alipay/qrcode/15665544556.png"
+}
+```
+
+微信：
+```json
+{
+  "type":"3",
+  "account_number":"15665544556",
+  "qrcode":"http://domain/images/alipay/qrcode/15665544556.png"
+}
+```
+ **请求参数说明：**
+
+- URL部分
+
+| 信息单元 | 必选 | 类型   | 长度  | 说明                                            |
+| -------- | ---- | ------ | ----- | ----------------------------------------------- |
+| _apiname | 是   | String | 1-32  | 接口名，固定值：user.payment.addPayment |
+| mtoken   | 是   | String | 32    | 用户登录令牌,由后台生成返回给前端               |
+| cc       | 是   | Int    | 10    | 时间戳，调用方生成                              |
+| ck       | 是   | String | 32    | 校验码，调用方生成: md5(时间戳+私钥+ apiname)   |
+| _env     | 否   | String | 1-200 | App环境参数                                     |
+
+-  Body部分
+
+银行卡：
+
+| 信息单元 | 必选 | 类型    | 长度 | 说明   |
+| -------- | ---- | ------- | ---- | ------ |
+| type | 是 | tinyint | 1 | 支付方式类型 （1：银行卡， 2：支付宝 ，3：微信支付） |
+| account_number | 是 | string | 20    | 银行卡帐号               |
+| account_name   | 是 | string | 1-50  | 开户名                   |
+| bank_name      | 是 | string | 1-50  | 开户支行                 |
+| bank_address   | 是 | string | 1-100 | 开户支行所在地址         |
+
+支付宝或微信：
+
+| 信息单元 | 必选 | 类型    | 长度 | 说明   |
+| -------- | ---- | ------- | ---- | ------ |
+| account_number | 是 | string | 20    | 支付宝/微信支付帐号       |
+| qrcode         | 是 | string | 1-100 | 支付宝/微信支付收款二维码 |
+
+#### <a name='4213-ouput'>4.2.1.3  输出</a>
+
+
+```json
+{
+  "code": "200",
+  "msg": "success",
+  "time": "1539667765",
+  "data": {
+    "id":"10"
+  }
+}
+
+```
+
+**响应参数说明**
+
+| 信息单元       | 类型   | 长度  | 说明                     |
+| -------------- | ------ | ----- | ------------------------ |
+| id | int | 1-11    | 支付方式帐户ID              |
+
+
+
+### <a name='422-update-payment>4.2.2  更新支付方式</a>
+
+#### <a name='4221-function-description'>4.2.2.1  功能说明</a>
+更新支付方式。
+
+#### <a name='4222-input'>4.2.2.2  输入</a>
+
+**Request URL:**
+
+```http
+http://IP:PORT/?_apiname=user.payment.updatePayment&mtoken=e856f9453a657db361881aebd78351af&cc=1539659992&ck=b7d7662bd8771012810857e2b9656bf5&_env={}
+```
+
+**Request Method:** `POST`
+
+**Accept:** `application/json`
+
+**Request Body:**
+
+```json
+{"type":"1","id":"3"}
+```
+
+ **请求参数说明：**
+
+- URL部分
+
+| 信息单元 | 必选 | 类型   | 长度  | 说明                                            |
+| -------- | ---- | ------ | ----- | ----------------------------------------------- |
+| _apiname | 是   | String | 1-32  | 接口名，固定值：user.payment.updatePayment |
+| mtoken   | 是   | String | 32    | 用户登录令牌,由后台生成返回给前端               |
+| cc       | 是   | Int    | 10    | 时间戳，调用方生成                              |
+| ck       | 是   | String | 32    | 校验码，调用方生成: md5(时间戳+私钥+ apiname)   |
+| _env     | 否   | String | 1-200 | App环境参数                                     |
+
+-  Body部分
+
+
+| 信息单元 | 必选 | 类型    | 长度 | 说明   |
+| -------- | ---- | ------- | ---- | ------ |
+| type | 是 | tinyint | 1 | 支付方式类型 （1：银行卡， 2：支付宝 ，3：微信支付） |
+| id  | 是   | int | 1-11  | 支付方式帐户ID |
+
+#### <a name='4223-ouput'>4.2.2.3  输出</a>
+
+
+```json
+{
+  "code": "200",
+  "msg": "success",
+  "time": "1539667765",
+  "data": {
+    "type":"1",
+    "id":"10"
+  }
+}
+
+```
+
+**响应参数说明**
+
+| 信息单元       | 类型   | 长度  | 说明                     |
+| -------------- | ------ | ----- | ------------------------ |
+| type | tinyint | 1 | 支付方式类型 （1：银行卡， 2：支付宝 ，3：微信支付） |
+| id | int | 1-11    | 支付方式帐户ID              |
+
+
+
+### <a name='423-del-payment'>4.2.3  删除支付方式</a>
+
+#### <a name='4231-function-description'>4.2.3.1  功能说明</a>
+通过支付方式的帐户ID获取其详情信息。
+
+#### <a name='4232-input'>4.2.3.2  输入</a>
+
+**Request URL:**
+
+```http
+http://IP:PORT/?_apiname=user.payment.delPayment&mtoken=e856f9453a657db361881aebd78351af&cc=1539659992&ck=b7d7662bd8771012810857e2b9656bf5&_env={}
+```
+
+**Request Method:** `POST`
+
+**Accept:** `application/json`
+
+**Request Body:**
+
+```json
+{"type":"1","id":"3"}
+```
+
+ **请求参数说明：**
+
+- URL部分
+
+| 信息单元 | 必选 | 类型   | 长度  | 说明                                            |
+| -------- | ---- | ------ | ----- | ----------------------------------------------- |
+| _apiname | 是   | String | 1-32  | 接口名，固定值：user.payment.delPayment |
+| mtoken   | 是   | String | 32    | 用户登录令牌,由后台生成返回给前端               |
+| cc       | 是   | Int    | 10    | 时间戳，调用方生成                              |
+| ck       | 是   | String | 32    | 校验码，调用方生成: md5(时间戳+私钥+ apiname)   |
+| _env     | 否   | String | 1-200 | App环境参数                                     |
+
+-  Body部分
+
+
+| 信息单元 | 必选 | 类型    | 长度 | 说明   |
+| -------- | ---- | ------- | ---- | ------ |
+| type | 是 | tinyint | 1 | 支付方式类型 （1：银行卡， 2：支付宝 ，3：微信支付） |
+| id  | 是   | int | 1-11  | 支付方式帐户ID |
+
+#### <a name='4233-ouput'>4.2.3.3  输出</a>
+
+```json
+{
+  "code": "200",
+  "msg": "success",
+  "time": "1539667765",
+  "data": {
+    "type":"1",
+    "id":"10"
+  }
+}
+
+```
+
+**响应参数说明**
+
+| 信息单元       | 类型   | 长度  | 说明                      |
+| -------------- | ------ | ----- | ------------------------- |
+| type | tinyint | 1 | 支付方式类型 （1：银行卡， 2：支付宝 ，3：微信支付） |
+| id | int | 1-11    | 支付方式帐户ID              |
+
+### <a name='424-get-payment-info-by-id'>4.2.4  获取支付方式详情信息</a>
+
+#### <a name='4241-function-description'>4.2.4.1  功能说明</a>
+通过支付方式的帐户ID获取其详情信息。
+
+#### <a name='4242-input'>4.2.4.2  输入</a>
 
 **Request URL:**
 
@@ -362,7 +606,7 @@ http://IP:PORT/?_apiname=user.payment.getPaymentInfoById&mtoken=e856f9453a657db3
 | type | 是 | tinyint | 1 | 支付方式类型 （1：银行卡， 2：支付宝 ，3：微信支付） |
 | id  | 是   | int | 1-11  | 支付方式帐户ID |
 
-#### <a name='4213-ouput'>4.2.1.3  输出</a>
+#### <a name='4243-ouput'>4.2.4.3  输出</a>
 
 银行卡：
 
@@ -410,8 +654,6 @@ http://IP:PORT/?_apiname=user.payment.getPaymentInfoById&mtoken=e856f9453a657db3
 | -------------- | ------ | ----- | ------------------------- |
 | account_number | string | 20    | 支付宝/微信支付帐号       |
 | qrcode         | string | 1-100 | 支付宝/微信支付收款二维码 |
-
-
 
 
 ## <a name='43-coin-management'>4.3 币种管理</a>
