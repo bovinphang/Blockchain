@@ -654,7 +654,7 @@ http://IP:PORT/?_apiname=order.order.addOrder&mtoken=e856f9453a657db361881aebd78
 ### <a name='442-get-order-info'>4.4.2 获取订单详情</a>
 
 #### <a name='4421-function-description'>4.4.2.1  功能说明</a>
-根据订单ID获取订单详情数据。
+根据订单号获取订单详情数据。
 
 #### <a name='4422-input'>4.4.2.2  输入</a>
 
@@ -671,7 +671,7 @@ http://IP:PORT/?_apiname=order.order.getOrderInfo&mtoken=e856f9453a657db361881ae
 **Request Body:**
 
 ```json
-{"order_id":"1015"}
+{"order_no":"c20181018999"}
 ```
 
  **请求参数说明：**
@@ -690,7 +690,7 @@ http://IP:PORT/?_apiname=order.order.getOrderInfo&mtoken=e856f9453a657db361881ae
 
 | 信息单元   | 必选 | 类型  | 长度 | 说明                           |
 | ---------- | ---- | ----- | ---- | ------------------------------ |
-| order_id | 是   | int | 1-11 | 订单ID |
+| order_no | 是   | string | 20 | 订单号 |
 
 
 #### <a name='4423-ouput'>4.4.2.3  输出</a>
@@ -763,7 +763,7 @@ http://IP:PORT/?_apiname=order.order.updateOrderStatus&mtoken=e856f9453a657db361
 **Request Body:**
 
 ```json
-{"order_id":"101","status":"1"}
+{"order_no":"c20181018999","status":"1"}
 ```
 
  **请求参数说明：**
@@ -782,7 +782,7 @@ http://IP:PORT/?_apiname=order.order.updateOrderStatus&mtoken=e856f9453a657db361
 
 | 信息单元 | 必选 | 类型    | 长度 | 说明                                                         |
 | -------- | ---- | ------- | ---- | ------------------------------------------------------------ |
-| order_id | 是   | int     | 1-11 | 订单ID                                                       |
+| order_no | 是   | string  | 20   | 订单号                                                       |
 | status   | 是   | tinyint | 1    | 订单状态（0：待付款， 1：已付款， 2：交易成功 ，3：交易完成， 4：交易关闭） |
 
 
