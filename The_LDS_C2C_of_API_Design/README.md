@@ -71,6 +71,10 @@ LDS交易所C2C接口规范
      * [4.2.4.1 功能说明](#4241-function-description)
      * [4.2.4.2 输入](#4242-input)
      * [4.2.4.3 输出](#4243-ouput)
+  * [4.2.5 获取支付方式列表](#425-get-payment-list)
+     * [4.2.5.1 功能说明](#4251-function-description)
+     * [4.2.5.2 输入](#4252-input)
+     * [4.2.5.3 输出](#4253-ouput)
 * [4.3 币种管理](#43-coin-management)
   * [4.3.1 获取币种详情信息](#431-get-coin-info-by-id)
      * [4.3.1.1 功能说明](#4311-function-description)
@@ -349,7 +353,9 @@ http://IP:PORT/?_apiname=user.payment.addPayment&mtoken=e856f9453a657db361881aeb
 **Accept:** `application/json`
 
 **Request Body:**
+
 银行卡：
+
 ```json
 {
   "type":"1",
@@ -430,7 +436,7 @@ http://IP:PORT/?_apiname=user.payment.addPayment&mtoken=e856f9453a657db361881aeb
 
 
 
-### <a name='422-update-payment>4.2.2  更新支付方式</a>
+### <a name='422-update-payment'>4.2.2  更新支付方式</a>
 
 #### <a name='4221-function-description'>4.2.2.1  功能说明</a>
 更新支付方式。
@@ -655,6 +661,100 @@ http://IP:PORT/?_apiname=user.payment.getPaymentInfoById&mtoken=e856f9453a657db3
 | account_number | string | 20    | 支付宝/微信支付帐号       |
 | qrcode         | string | 1-100 | 支付宝/微信支付收款二维码 |
 
+### <a name='425-get-payment-list'>4.2.5  获取支付方式列表</a>
+
+#### <a name='4251-function-description'>4.2.5.1  功能说明</a>
+通过个人所有支付方式列表。
+
+#### <a name='4252-input'>4.2.5.2  输入</a>
+
+**Request URL:**
+
+```http
+http://IP:PORT/?_apiname=user.payment.getPaymentList&mtoken=e856f9453a657db361881aebd78351af&cc=1539659992&ck=b7d7662bd8771012810857e2b9656bf5&_env={}
+```
+
+**Request Method:** `POST`
+
+**Accept:** `application/json`
+
+**Request Body:**
+
+空。
+
+ **请求参数说明：**
+
+- URL部分
+
+| 信息单元 | 必选 | 类型   | 长度  | 说明                                            |
+| -------- | ---- | ------ | ----- | ----------------------------------------------- |
+| _apiname | 是   | String | 1-32  | 接口名，固定值：user.payment.getPaymentList |
+| mtoken   | 是   | String | 32    | 用户登录令牌,由后台生成返回给前端               |
+| cc       | 是   | Int    | 10    | 时间戳，调用方生成                              |
+| ck       | 是   | String | 32    | 校验码，调用方生成: md5(时间戳+私钥+ apiname)   |
+| _env     | 否   | String | 1-200 | App环境参数                                     |
+
+
+
+#### <a name='4253-ouput'>4.2.5.3  输出</a>
+
+```json
+{
+  "code": "200",
+  "msg": "success",
+  "time": "1539667765",
+  "data": {
+    "bank_cards":[
+      {
+        "account_number":"622866402148754396",
+        "account_name":"张龙",
+        "bank_name":"建设银行",
+        "bank_address":"深圳市车公庙支行"
+      },
+      {
+        "account_number":"621792076063967955",
+        "account_name":"李琳",
+        "bank_name":"招商银行",
+        "bank_address":"深圳市高新园支行"
+      }
+    ],
+    "alipay":[
+      {
+    	"account_number":"13654478454",
+    	"qrcode":"http://domain/images/alipay/qrcode/ac56ds5543d.png"
+      }
+    ],
+    "wxpay":[
+      {
+    	"account_number":"13654478454",
+    	"qrcode":"http://domain/images/wxpay/qrcode/b5tw9c4h3f6.png"
+      }
+    ]
+  }
+}
+
+```
+
+**响应参数说明**
+
+| 信息单元       | 类型   | 长度  | 说明                     |
+| -------------- | ------ | ----- | ------------------------ |
+| bank_cards     | Object | 1+   | 银行卡帐户列表结果集 |
+| alipay     | Object | 1+   | 支付宝列表结果集 |
+| wxpay     | Object | 1+   | 微信支付列表结果集 |
+
+| 信息单元       | 类型   | 长度  | 说明                     |
+| -------------- | ------ | ----- | ------------------------ |
+| account_number | string | 20    | 银行卡帐号               |
+| account_name   | string | 1-50  | 开户名                   |
+| bank_name      | string | 1-50  | 开户支行                 |
+| bank_address   | string | 1-100 | 开户支行所在地址         |
+
+
+| 信息单元       | 类型   | 长度  | 说明                      |
+| -------------- | ------ | ----- | ------------------------- |
+| account_number | string | 20    | 支付宝/微信支付帐号       |
+| qrcode         | string | 1-100 | 支付宝/微信支付收款二维码 |
 
 ## <a name='43-coin-management'>4.3 币种管理</a>
 
