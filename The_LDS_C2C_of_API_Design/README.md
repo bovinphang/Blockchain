@@ -819,7 +819,7 @@ http://IP:PORT/?_apiname=order.order.getOrderList&mtoken=e856f9453a657db361881ae
 **Request Body:**
 
 ```json
-{"user_id":"3","current_page": "5","page_size":"20"}
+{"type":"1","current_page": "5","page_size":"20"}
 ```
 
  **请求参数说明：**
@@ -838,7 +838,7 @@ http://IP:PORT/?_apiname=order.order.getOrderList&mtoken=e856f9453a657db361881ae
 
 | 信息单元   | 必选 | 类型  | 长度 | 说明                           |
 | ---------- | ---- | ----- | ---- | ------------------------------ |
-| user_id | 是   | int | 1-11 | 客户ID |
+| type | 是   | tinyint | 1 | 交易数据类型（1：当前交易，2：历史交易） |
 | current_page | 否 | int | 1-11 | 当前页，默认为：1 |
 | page_size | 否 | int | 1-11 | 每页显示记录数，默认为：20条 |
 
