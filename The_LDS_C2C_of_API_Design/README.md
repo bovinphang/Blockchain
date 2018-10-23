@@ -105,7 +105,7 @@ LDS交易所C2C接口规范
 **[5. 附录](#5-appendix)**
 
 * [5.1 接口全局返回说明](#51-interface-global-return-description)
-* [5.2 错误码对应信息](#52-error-code)
+* [5.2 业务错误码](#52-error-code)
 * [5.3 JSON简介](#53-json-introduction)
   * [5.3.1 JSON的结构](#531-json-structure)
   * [5.3.2 JSON具有的形式](#532-json-shape)
@@ -282,20 +282,20 @@ http://IP:PORT/?_apiname=user.user.getUserInfoById&mtoken=e856f9453a657db361881a
 
 - URL部分
 
-| 信息单元 | 必选 | 类型   | 长度  | 说明                                          |
-| -------- | ---- | ------ | ----- | --------------------------------------------- |
-| _apiname | 是   | String | 1-32  | 接口名，固定值：user.user.getUserInfoById     |
-| mtoken   | 是   | String | 32    | 用户登录令牌,由后台生成返回给前端             |
-| cc       | 是   | Int    | 10    | 时间戳，调用方生成                            |
-| ck       | 是   | String | 32    | 校验码，调用方生成: md5(时间戳+私钥+ apiname) |
-| _env     | 否   | String | 1-200 | App环境参数                                   |
+| 参数     | 类型   | 是否必填 | 最大长度 | 描述                                          |
+| -------- | ------ | -------- | -------- | --------------------------------------------- |
+| _apiname | String | 是       | 32       | 接口名，固定值：user.user.getUserInfoById     |
+| mtoken   | String | 是       | 32       | 用户登录令牌,由后台生成返回给前端             |
+| cc       | Int    | 是       | 10       | 时间戳，调用方生成                            |
+| ck       | String | 是       | 32       | 校验码，调用方生成: md5(时间戳+私钥+ apiname) |
+| _env     | String | 否       | 200      | App环境参数                                   |
 
 -  Body部分
 
 
-| 信息单元 | 必选 | 类型    | 长度 | 说明   |
+| 参数 | 类型 | 是否必填 | 最大长度 | 描述 |
 | -------- | ---- | ------- | ---- | ------ |
-| id  | 是   | int | 1-11  | 客户ID |
+| id  | int | 是 | 11  | 客户ID |
 
 #### <a name='4113-ouput'>4.1.1.3  输出</a>
 
@@ -321,17 +321,17 @@ http://IP:PORT/?_apiname=user.user.getUserInfoById&mtoken=e856f9453a657db361881a
 
 **响应参数说明**
 
-| 信息单元     | 类型    | 长度  | 说明                     |
-| ------------ | ------- | ----- | ------------------------ |
-| mobile_phone | string  | 13    | 手机号                   |
-| realname     | string  | 2-50  | 真实姓名                 |
-| nickname     | string  | 0-50  | 昵称                     |
-| sex          | tinyint | 1     | 性别 1：男，2：女        |
-| headerpic    | string  | 0-150 | 头像                     |
-| email        | string  | 0-100 | 邮箱地址                 |
-| borndate     | date    | 0     | 出生日期(格式1900-01-01) |
-| area         | string  | 0-100 | 所在地区                 |
-| address      | string  | 0-200 | 地址                     |
+| 参数         | 类型    | 最大长度 | 描述                     |
+| ------------ | ------- | -------- | ------------------------ |
+| mobile_phone | string  | 13       | 手机号                   |
+| realname     | string  | 50       | 真实姓名                 |
+| nickname     | string  | 50       | 昵称                     |
+| sex          | tinyint | 1        | 性别 1：男，2：女        |
+| headerpic    | string  | 150      | 头像                     |
+| email        | string  | 100      | 邮箱地址                 |
+| borndate     | date    | 0        | 出生日期(格式1900-01-01) |
+| area         | string  | 100      | 所在地区                 |
+| address      | string  | 200      | 地址                     |
 
 ## <a name='42-payment-management'>4.2 支付方式管理</a>
 
@@ -386,32 +386,32 @@ http://IP:PORT/?_apiname=user.payment.addPayment&mtoken=e856f9453a657db361881aeb
 
 - URL部分
 
-| 信息单元 | 必选 | 类型   | 长度  | 说明                                            |
-| -------- | ---- | ------ | ----- | ----------------------------------------------- |
-| _apiname | 是   | String | 1-32  | 接口名，固定值：user.payment.addPayment |
-| mtoken   | 是   | String | 32    | 用户登录令牌,由后台生成返回给前端               |
-| cc       | 是   | Int    | 10    | 时间戳，调用方生成                              |
-| ck       | 是   | String | 32    | 校验码，调用方生成: md5(时间戳+私钥+ apiname)   |
-| _env     | 否   | String | 1-200 | App环境参数                                     |
+| 参数     | 类型   | 是否必填 | 最大长度 | 描述                                          |
+| -------- | ------ | -------- | -------- | --------------------------------------------- |
+| _apiname | String | 是       | 32       | 接口名，固定值：user.payment.addPayment       |
+| mtoken   | String | 是       | 32       | 用户登录令牌,由后台生成返回给前端             |
+| cc       | Int    | 是       | 10       | 时间戳，调用方生成                            |
+| ck       | String | 是       | 32       | 校验码，调用方生成: md5(时间戳+私钥+ apiname) |
+| _env     | String | 否       | 200      | App环境参数                                   |
 
 -  Body部分
 
 银行卡：
 
-| 信息单元 | 必选 | 类型    | 长度 | 说明   |
+| 参数 | 类型 | 是否必填 | 最大长度 | 描述 |
 | -------- | ---- | ------- | ---- | ------ |
-| type | 是 | tinyint | 1 | 支付方式类型 （1：银行卡， 2：支付宝 ，3：微信支付） |
-| account_number | 是 | string | 20    | 银行卡帐号               |
-| account_name   | 是 | string | 1-50  | 开户名                   |
-| bank_name      | 是 | string | 1-50  | 开户支行                 |
-| bank_address   | 是 | string | 1-100 | 开户支行所在地址         |
+| type | tinyint | 是 | 1 | 支付方式类型 （1：银行卡， 2：支付宝 ，3：微信支付） |
+| account_number | string | 是 | 20    | 银行卡帐号               |
+| account_name   | string | 是 | 50  | 开户名                   |
+| bank_name      | string | 是 | 50  | 开户支行                 |
+| bank_address   | string | 是 | 100 | 开户支行所在地址         |
 
 支付宝或微信：
 
-| 信息单元 | 必选 | 类型    | 长度 | 说明   |
+| 参数 | 类型 | 是否必填 | 最大长度 | 描述 |
 | -------- | ---- | ------- | ---- | ------ |
-| account_number | 是 | string | 20    | 支付宝/微信支付帐号       |
-| qrcode         | 是 | string | 1-100 | 支付宝/微信支付收款二维码 |
+| account_number | string | 是 | 20    | 支付宝/微信支付帐号       |
+| qrcode         | string | 是 | 100 | 支付宝/微信支付收款二维码 |
 
 #### <a name='4213-ouput'>4.2.1.3  输出</a>
 
@@ -430,9 +430,9 @@ http://IP:PORT/?_apiname=user.payment.addPayment&mtoken=e856f9453a657db361881aeb
 
 **响应参数说明**
 
-| 信息单元       | 类型   | 长度  | 说明                     |
+| 参数       | 类型   | 最大长度 | 描述                   |
 | -------------- | ------ | ----- | ------------------------ |
-| id | int | 1-11    | 支付方式帐户ID              |
+| id | int | 11    | 支付方式帐户ID              |
 
 
 
@@ -455,29 +455,71 @@ http://IP:PORT/?_apiname=user.payment.updatePayment&mtoken=e856f9453a657db361881
 
 **Request Body:**
 
+银行卡：
+
 ```json
-{"type":"1","id":"3"}
+{
+  "type":"1",
+  "id":"3",
+  "account_number":"622866402148754396",
+  "account_name":"张龙",
+  "bank_name":"建设银行",
+  "bank_address":"深圳市车公庙支行"
+}
+```
+支付宝：
+```json
+{
+  "type":"2",
+  "id":"3",
+  "account_number":"15665544556",
+  "qrcode":"http://domain/images/alipay/qrcode/15665544556.png"
+}
+```
+
+微信：
+```json
+{
+  "type":"3",
+  "id":"3",
+  "account_number":"15665544556",
+  "qrcode":"http://domain/images/alipay/qrcode/15665544556.png"
+}
 ```
 
  **请求参数说明：**
 
 - URL部分
 
-| 信息单元 | 必选 | 类型   | 长度  | 说明                                            |
-| -------- | ---- | ------ | ----- | ----------------------------------------------- |
-| _apiname | 是   | String | 1-32  | 接口名，固定值：user.payment.updatePayment |
-| mtoken   | 是   | String | 32    | 用户登录令牌,由后台生成返回给前端               |
-| cc       | 是   | Int    | 10    | 时间戳，调用方生成                              |
-| ck       | 是   | String | 32    | 校验码，调用方生成: md5(时间戳+私钥+ apiname)   |
-| _env     | 否   | String | 1-200 | App环境参数                                     |
+| 参数     | 类型   | 是否必填 | 最大长度 | 描述                                          |
+| -------- | ------ | -------- | -------- | --------------------------------------------- |
+| _apiname | String | 是       | 32       | 接口名，固定值：user.payment.updatePayment    |
+| mtoken   | String | 是       | 32       | 用户登录令牌,由后台生成返回给前端             |
+| cc       | Int    | 是       | 10       | 时间戳，调用方生成                            |
+| ck       | String | 是       | 32       | 校验码，调用方生成: md5(时间戳+私钥+ apiname) |
+| _env     | String | 否       | 200      | App环境参数                                   |
 
 -  Body部分
 
+银行卡：
 
-| 信息单元 | 必选 | 类型    | 长度 | 说明   |
+| 参数 | 类型 | 是否必填 | 最大长度 | 描述 |
 | -------- | ---- | ------- | ---- | ------ |
-| type | 是 | tinyint | 1 | 支付方式类型 （1：银行卡， 2：支付宝 ，3：微信支付） |
-| id  | 是   | int | 1-11  | 支付方式帐户ID |
+| type | tinyint | 是 | 1 | 支付方式类型 （1：银行卡， 2：支付宝 ，3：微信支付） |
+| id  | int | 是 | 11  | 支付方式帐户ID |
+| account_number | string | 是 | 20    | 银行卡帐号               |
+| account_name   | string | 是 | 50  | 开户名                   |
+| bank_name      | string | 是 | 50  | 开户支行                 |
+| bank_address   | string | 是 | 100 | 开户支行所在地址         |
+
+支付宝或微信：
+
+| 参数 | 类型 | 是否必填 | 最大长度 | 描述 |
+| -------- | ---- | ------- | ---- | ------ |
+| type | tinyint | 是 | 1 | 支付方式类型 （1：银行卡， 2：支付宝 ，3：微信支付） |
+| id  | int | 是 | 11  | 支付方式帐户ID |
+| account_number | string | 是 | 20    | 支付宝/微信支付帐号       |
+| qrcode         | string | 是 | 100 | 支付宝/微信支付收款二维码 |
 
 #### <a name='4223-ouput'>4.2.2.3  输出</a>
 
@@ -497,10 +539,10 @@ http://IP:PORT/?_apiname=user.payment.updatePayment&mtoken=e856f9453a657db361881
 
 **响应参数说明**
 
-| 信息单元       | 类型   | 长度  | 说明                     |
+| 参数       | 类型   | 最大长度 | 描述                   |
 | -------------- | ------ | ----- | ------------------------ |
 | type | tinyint | 1 | 支付方式类型 （1：银行卡， 2：支付宝 ，3：微信支付） |
-| id | int | 1-11    | 支付方式帐户ID              |
+| id | int | 11    | 支付方式帐户ID              |
 
 
 
@@ -531,21 +573,21 @@ http://IP:PORT/?_apiname=user.payment.delPayment&mtoken=e856f9453a657db361881aeb
 
 - URL部分
 
-| 信息单元 | 必选 | 类型   | 长度  | 说明                                            |
-| -------- | ---- | ------ | ----- | ----------------------------------------------- |
-| _apiname | 是   | String | 1-32  | 接口名，固定值：user.payment.delPayment |
-| mtoken   | 是   | String | 32    | 用户登录令牌,由后台生成返回给前端               |
-| cc       | 是   | Int    | 10    | 时间戳，调用方生成                              |
-| ck       | 是   | String | 32    | 校验码，调用方生成: md5(时间戳+私钥+ apiname)   |
-| _env     | 否   | String | 1-200 | App环境参数                                     |
+| 参数     | 类型   | 是否必填 | 最大长度 | 描述                                          |
+| -------- | ------ | -------- | -------- | --------------------------------------------- |
+| _apiname | String | 是       | 32       | 接口名，固定值：user.payment.delPayment       |
+| mtoken   | String | 是       | 32       | 用户登录令牌,由后台生成返回给前端             |
+| cc       | Int    | 是       | 10       | 时间戳，调用方生成                            |
+| ck       | String | 是       | 32       | 校验码，调用方生成: md5(时间戳+私钥+ apiname) |
+| _env     | String | 否       | 200      | App环境参数                                   |
 
 -  Body部分
 
 
-| 信息单元 | 必选 | 类型    | 长度 | 说明   |
+| 参数 | 类型 | 是否必填 | 最大长度 | 描述 |
 | -------- | ---- | ------- | ---- | ------ |
-| type | 是 | tinyint | 1 | 支付方式类型 （1：银行卡， 2：支付宝 ，3：微信支付） |
-| id  | 是   | int | 1-11  | 支付方式帐户ID |
+| type | tinyint | 是 | 1 | 支付方式类型 （1：银行卡， 2：支付宝 ，3：微信支付） |
+| id  | int | 是 | 11  | 支付方式帐户ID |
 
 #### <a name='4233-ouput'>4.2.3.3  输出</a>
 
@@ -564,10 +606,10 @@ http://IP:PORT/?_apiname=user.payment.delPayment&mtoken=e856f9453a657db361881aeb
 
 **响应参数说明**
 
-| 信息单元       | 类型   | 长度  | 说明                      |
+| 参数       | 类型   | 最大长度 | 描述                    |
 | -------------- | ------ | ----- | ------------------------- |
 | type | tinyint | 1 | 支付方式类型 （1：银行卡， 2：支付宝 ，3：微信支付） |
-| id | int | 1-11    | 支付方式帐户ID              |
+| id | int | 11    | 支付方式帐户ID              |
 
 ### <a name='424-get-payment-info-by-id'>4.2.4  获取支付方式详情信息</a>
 
@@ -596,21 +638,21 @@ http://IP:PORT/?_apiname=user.payment.getPaymentInfoById&mtoken=e856f9453a657db3
 
 - URL部分
 
-| 信息单元 | 必选 | 类型   | 长度  | 说明                                            |
-| -------- | ---- | ------ | ----- | ----------------------------------------------- |
-| _apiname | 是   | String | 1-32  | 接口名，固定值：user.payment.getPaymentInfoById |
-| mtoken   | 是   | String | 32    | 用户登录令牌,由后台生成返回给前端               |
-| cc       | 是   | Int    | 10    | 时间戳，调用方生成                              |
-| ck       | 是   | String | 32    | 校验码，调用方生成: md5(时间戳+私钥+ apiname)   |
-| _env     | 否   | String | 1-200 | App环境参数                                     |
+| 参数     | 类型   | 是否必填 | 最大长度 | 描述                                            |
+| -------- | ------ | -------- | -------- | ----------------------------------------------- |
+| _apiname | String | 是       | 32       | 接口名，固定值：user.payment.getPaymentInfoById |
+| mtoken   | String | 是       | 32       | 用户登录令牌,由后台生成返回给前端               |
+| cc       | Int    | 是       | 10       | 时间戳，调用方生成                              |
+| ck       | String | 是       | 32       | 校验码，调用方生成: md5(时间戳+私钥+ apiname)   |
+| _env     | String | 否       | 200      | App环境参数                                     |
 
 -  Body部分
 
 
-| 信息单元 | 必选 | 类型    | 长度 | 说明   |
+| 参数 | 类型 | 是否必填 | 最大长度 | 描述 |
 | -------- | ---- | ------- | ---- | ------ |
-| type | 是 | tinyint | 1 | 支付方式类型 （1：银行卡， 2：支付宝 ，3：微信支付） |
-| id  | 是   | int | 1-11  | 支付方式帐户ID |
+| type | tinyint | 是 | 1 | 支付方式类型 （1：银行卡， 2：支付宝 ，3：微信支付） |
+| id  | int | 是 | 11  | 支付方式帐户ID |
 
 #### <a name='4243-ouput'>4.2.4.3  输出</a>
 
@@ -633,12 +675,12 @@ http://IP:PORT/?_apiname=user.payment.getPaymentInfoById&mtoken=e856f9453a657db3
 
 **响应参数说明**
 
-| 信息单元       | 类型   | 长度  | 说明                     |
-| -------------- | ------ | ----- | ------------------------ |
-| account_number | string | 20    | 银行卡帐号               |
-| account_name   | string | 1-50  | 开户名                   |
-| bank_name      | string | 1-50  | 开户支行                 |
-| bank_address   | string | 1-100 | 开户支行所在地址         |
+| 参数           | 类型   | 最大长度 | 描述             |
+| -------------- | ------ | -------- | ---------------- |
+| account_number | string | 20       | 银行卡帐号       |
+| account_name   | string | 50       | 开户名           |
+| bank_name      | string | 50       | 开户支行         |
+| bank_address   | string | 100      | 开户支行所在地址 |
 
 支付宝或微信：
 ```json
@@ -656,10 +698,10 @@ http://IP:PORT/?_apiname=user.payment.getPaymentInfoById&mtoken=e856f9453a657db3
 
 **响应参数说明**
 
-| 信息单元       | 类型   | 长度  | 说明                      |
-| -------------- | ------ | ----- | ------------------------- |
-| account_number | string | 20    | 支付宝/微信支付帐号       |
-| qrcode         | string | 1-100 | 支付宝/微信支付收款二维码 |
+| 参数           | 类型   | 最大长度 | 描述                      |
+| -------------- | ------ | -------- | ------------------------- |
+| account_number | string | 20       | 支付宝/微信支付帐号       |
+| qrcode         | string | 100      | 支付宝/微信支付收款二维码 |
 
 ### <a name='425-get-payment-list'>4.2.5  获取支付方式列表</a>
 
@@ -686,13 +728,13 @@ http://IP:PORT/?_apiname=user.payment.getPaymentList&mtoken=e856f9453a657db36188
 
 - URL部分
 
-| 信息单元 | 必选 | 类型   | 长度  | 说明                                            |
-| -------- | ---- | ------ | ----- | ----------------------------------------------- |
-| _apiname | 是   | String | 1-32  | 接口名，固定值：user.payment.getPaymentList |
-| mtoken   | 是   | String | 32    | 用户登录令牌,由后台生成返回给前端               |
-| cc       | 是   | Int    | 10    | 时间戳，调用方生成                              |
-| ck       | 是   | String | 32    | 校验码，调用方生成: md5(时间戳+私钥+ apiname)   |
-| _env     | 否   | String | 1-200 | App环境参数                                     |
+| 参数     | 类型   | 是否必填 | 最大长度 | 描述                                          |
+| -------- | ------ | -------- | -------- | --------------------------------------------- |
+| _apiname | String | 是       | 32       | 接口名，固定值：user.payment.getPaymentList   |
+| mtoken   | String | 是       | 32       | 用户登录令牌,由后台生成返回给前端             |
+| cc       | Int    | 是       | 10       | 时间戳，调用方生成                            |
+| ck       | String | 是       | 32       | 校验码，调用方生成: md5(时间戳+私钥+ apiname) |
+| _env     | String | 否       | 200      | App环境参数                                   |
 
 
 
@@ -737,24 +779,24 @@ http://IP:PORT/?_apiname=user.payment.getPaymentList&mtoken=e856f9453a657db36188
 
 **响应参数说明**
 
-| 信息单元       | 类型   | 长度  | 说明                     |
+| 参数       | 类型   | 最大长度 | 描述                   |
 | -------------- | ------ | ----- | ------------------------ |
-| bank_cards     | Object | 1+   | 银行卡帐户列表结果集 |
-| alipay     | Object | 1+   | 支付宝列表结果集 |
-| wxpay     | Object | 1+   | 微信支付列表结果集 |
+| bank_cards     | String | 10   | 银行卡帐户列表结果集 |
+| alipay     | String | 10   | 支付宝列表结果集 |
+| wxpay     | String | 10   | 微信支付列表结果集 |
 
-| 信息单元       | 类型   | 长度  | 说明                     |
-| -------------- | ------ | ----- | ------------------------ |
-| account_number | string | 20    | 银行卡帐号               |
-| account_name   | string | 1-50  | 开户名                   |
-| bank_name      | string | 1-50  | 开户支行                 |
-| bank_address   | string | 1-100 | 开户支行所在地址         |
+| 参数           | 类型   | 最大长度 | 描述             |
+| -------------- | ------ | -------- | ---------------- |
+| account_number | string | 20       | 银行卡帐号       |
+| account_name   | string | 50       | 开户名           |
+| bank_name      | string | 50       | 开户支行         |
+| bank_address   | string | 100      | 开户支行所在地址 |
 
 
-| 信息单元       | 类型   | 长度  | 说明                      |
-| -------------- | ------ | ----- | ------------------------- |
-| account_number | string | 20    | 支付宝/微信支付帐号       |
-| qrcode         | string | 1-100 | 支付宝/微信支付收款二维码 |
+| 参数           | 类型   | 最大长度 | 描述                      |
+| -------------- | ------ | -------- | ------------------------- |
+| account_number | string | 20       | 支付宝/微信支付帐号       |
+| qrcode         | string | 100      | 支付宝/微信支付收款二维码 |
 
 ## <a name='43-coin-management'>4.3 币种管理</a>
 
@@ -785,20 +827,20 @@ http://IP:PORT/?_apiname=coin.coin.getCoinInfoById&mtoken=e856f9453a657db361881a
 
 - URL部分
 
-| 信息单元 | 必选 | 类型   | 长度  | 说明                                          |
-| -------- | ---- | ------ | ----- | --------------------------------------------- |
-| _apiname | 是   | String | 1-32  | 接口名，固定值：coin.coin.getCoinInfoById     |
-| mtoken   | 是   | String | 32    | 用户登录令牌,由后台生成返回给前端             |
-| cc       | 是   | Int    | 10    | 时间戳，调用方生成                            |
-| ck       | 是   | String | 32    | 校验码，调用方生成: md5(时间戳+私钥+ apiname) |
-| _env     | 否   | String | 1-200 | App环境参数                                   |
+| 参数     | 类型   | 是否必填 | 最大长度 | 描述                                          |
+| -------- | ------ | -------- | -------- | --------------------------------------------- |
+| _apiname | String | 是       | 32       | 接口名，固定值：coin.coin.getCoinInfoById     |
+| mtoken   | String | 是       | 32       | 用户登录令牌,由后台生成返回给前端|
+| cc       | Int    | 是       | 10       | 时间戳，调用方生成             |
+| ck       | String | 是       | 32       | 校验码，调用方生成: md5(时间戳+私钥+ apiname) |
+| _env     | String | 否       | 200      | App环境参数              |
 
 -  Body部分
 
 
-| 信息单元 | 必选 | 类型    | 长度 | 说明   |
-| -------- | ---- | ------- | ---- | ------ |
-| coin_id  | 是   | tinyint | 1-3  | 币种ID |
+| 参数    | 类型    | 是否必填 | 最大长度 | 描述   |
+| ------- | ------- | -------- | -------- | ------ |
+| coin_id | tinyint | 是       | 3        | 币种ID |
 
 #### <a name='4313-ouput'>4.3.1.3  输出</a>
 
@@ -824,17 +866,17 @@ http://IP:PORT/?_apiname=coin.coin.getCoinInfoById&mtoken=e856f9453a657db361881a
 
 **响应参数说明**
 
-| 信息单元       | 类型    | 长度  | 说明            |
-| -------------- | ------- | ----- | --------------- |
-| coin_id        | tinyint | 1-3   | 币种ID          |
-| coinname       | varchar | 1-200 | 币种名称        |
-| coinname_ch    | varchar | 1-200 | 币种名称-中文   |
-| coinname_abb   | varchar | 1-60  | 币种简称        |
-| descr          | text    | 0     | 币种描述        |
-| buying_amount  | decimal | 1-20  | C2C最低买入金额 |
-| selling_amount | decimal | 1-20  | C2C最低卖出金额 |
-| buying_price   | decimal | 1-20  | 买入单价        |
-| selling_price  | decimal | 1-20  | 卖出单价        |
+| 参数           | 类型    | 最大长度 | 描述            |
+| -------------- | ------- | -------- | --------------- |
+| coin_id        | tinyint | 3        | 币种ID          |
+| coinname       | varchar | 200      | 币种名称        |
+| coinname_ch    | varchar | 200      | 币种名称-中文   |
+| coinname_abb   | varchar | 60       | 币种简称        |
+| descr          | text    | 0        | 币种描述        |
+| buying_amount  | decimal | 20       | C2C最低买入金额 |
+| selling_amount | decimal | 20       | C2C最低卖出金额 |
+| buying_price   | decimal | 20       | 买入单价        |
+| selling_price  | decimal | 20       | 卖出单价        |
 
 
 ### <a name='432-get-c2c-coin-list'>4.3.2  获取支持C2C交易的币种列表</a>
@@ -864,19 +906,19 @@ http://IP:PORT/?_apiname=coin.coin.getC2CCoinList&mtoken=e856f9453a657db361881ae
 
 - URL部分
 
-| 信息单元 | 必选 | 类型   | 长度  | 说明                                          |
-| -------- | ---- | ------ | ----- | --------------------------------------------- |
-| _apiname | 是   | String | 1-32  | 接口名，固定值：coin.coin.getC2CCoinList      |
-| mtoken   | 是   | String | 32    | 用户登录令牌,由后台生成返回给前端             |
-| cc       | 是   | Int    | 10    | 时间戳，调用方生成                            |
-| ck       | 是   | String | 32    | 校验码，调用方生成: md5(时间戳+私钥+ apiname) |
-| _env     | 否   | String | 1-200 | App环境参数                                   |
+| 参数     | 是否必填 | 类型   | 最大长度 | 描述                                          |
+| -------- | -------- | ------ | -------- | --------------------------------------------- |
+| _apiname | String | 是       | 32       | 接口名，固定值：coin.coin.getC2CCoinList     |
+| mtoken   | String | 是       | 32       | 用户登录令牌,由后台生成返回给前端|
+| cc       | Int    | 是       | 10       | 时间戳，调用方生成             |
+| ck       | String | 是       | 32       | 校验码，调用方生成: md5(时间戳+私钥+ apiname) |
+| _env     | String | 否       | 200      | App环境参数              |
 
 -  Body部分
 
-| 信息单元 | 必选 | 类型    | 长度 | 说明                                |
-| -------- | ---- | ------- | ---- | ----------------------------------- |
-| is_c2c   | 是   | tinyint | 1    | 是否支持C2C交易  0：不支持，1：支持 |
+| 参数   | 类型 | 是否必填    | 最大长度 | 描述                                |
+| ------ | -------- | ------- | -------- | ----------------------------------- |
+| is_c2c | tinyint       | 是 | 1        | 是否支持C2C交易  0：不支持，1：支持 |
 
 #### <a name='4323-ouput'>4.3.2.3  输出</a>
 
@@ -924,9 +966,9 @@ http://IP:PORT/?_apiname=coin.coin.getC2CCoinList&mtoken=e856f9453a657db361881ae
 
 **响应参数说明**
 
-| 信息单元 | 类型   | 长度 | 说明       |
-| -------- | ------ | ---- | ---------- |
-| list     | Object | 1+   | 列表结果集 |
+| 参数 | 类型   | 最大长度 | 描述       |
+| ---- | ------ | -------- | ---------- |
+| list | String | 100      | 列表结果集 |
 
 ## <a name='44-c2c-order-management'>4.4 C2C订单管理</a>
 
@@ -957,21 +999,21 @@ http://IP:PORT/?_apiname=order.order.addOrder&mtoken=e856f9453a657db361881aebd78
 
 - URL部分
 
-| 信息单元 | 必选 | 类型   | 长度  | 说明                                          |
-| -------- | ---- | ------ | ----- | --------------------------------------------- |
-| _apiname | 是   | String | 1-32  | 接口名，固定值：order.order.addOrder          |
-| mtoken   | 是   | String | 32    | 用户登录令牌,由后台生成返回给前端             |
-| cc       | 是   | Int    | 10    | 时间戳，调用方生成                            |
-| ck       | 是   | String | 32    | 校验码，调用方生成: md5(时间戳+私钥+ apiname) |
-| _env     | 否   | String | 1-200 | App环境参数                                   |
+| 参数     | 是否必填 | 类型   | 最大长度 | 描述                                          |
+| -------- | -------- | ------ | -------- | --------------------------------------------- |
+| _apiname | String | 是       | 32       | 接口名，固定值：coin.coin.addOrder     |
+| mtoken   | String | 是       | 32       | 用户登录令牌,由后台生成返回给前端|
+| cc       | Int    | 是       | 10       | 时间戳，调用方生成             |
+| ck       | String | 是       | 32       | 校验码，调用方生成: md5(时间戳+私钥+ apiname) |
+| _env     | String | 否       | 200      | App环境参数              |
 
 -  Body部分
 
-| 信息单元 | 必选 | 类型    | 长度 | 说明                           |
-| -------- | ---- | ------- | ---- | ------------------------------ |
-| coin_id  | 是   | tinyint | 1-3  | 币种ID                         |
-| volume   | 是   | float   | 1-13 | 买入/卖出数量                  |
-| type     | 是   | tinyint | 1    | 类型  1：委托买入，2：委托卖出 |
+| 参数    | 类型 | 是否必填   | 最大长度 | 描述                           |
+| ------- | -------- | ------- | -------- | ------------------------------ |
+| coin_id | tinyint       | 是 | 3        | 币种ID                         |
+| volume  | float       | 是   | 13       | 买入/卖出数量                  |
+| type    | tinyint       | 是 | 1        | 类型  1：委托买入，2：委托卖出 |
 
 
 #### <a name='4413-ouput'>4.4.1.3  输出</a>
@@ -989,9 +1031,9 @@ http://IP:PORT/?_apiname=order.order.addOrder&mtoken=e856f9453a657db361881aebd78
 
 **响应参数说明**
 
-| 信息单元 | 类型   | 长度 | 说明       |
+| 参数 | 类型   | 最大长度 | 描述     |
 | -------- | ------ | ---- | ---------- |
-| order_no | 是   | String | 20   |
+| order_no | String | 20| 订单号   |
 
 ### <a name='442-get-order-info'>4.4.2 获取订单详情</a>
 
@@ -1020,19 +1062,19 @@ http://IP:PORT/?_apiname=order.order.getOrderInfo&mtoken=e856f9453a657db361881ae
 
 - URL部分
 
-| 信息单元 | 必选 | 类型   | 长度  | 说明                                          |
-| -------- | ---- | ------ | ----- | --------------------------------------------- |
-| _apiname | 是   | String | 1-32  | 接口名，固定值：order.order.getOrderInfo      |
-| mtoken   | 是   | String | 32    | 用户登录令牌,由后台生成返回给前端             |
-| cc       | 是   | Int    | 10    | 时间戳，调用方生成                            |
-| ck       | 是   | String | 32    | 校验码，调用方生成: md5(时间戳+私钥+ apiname) |
-| _env     | 否   | String | 1-200 | App环境参数                                   |
+| 参数     | 是否必填 | 类型   | 最大长度 | 描述                                          |
+| -------- | -------- | ------ | -------- | --------------------------------------------- |
+| _apiname | String | 是       | 32       | 接口名，固定值：coin.coin.getOrderInfo     |
+| mtoken   | String | 是       | 32       | 用户登录令牌,由后台生成返回给前端|
+| cc       | Int    | 是       | 10       | 时间戳，调用方生成             |
+| ck       | String | 是       | 32       | 校验码，调用方生成: md5(时间戳+私钥+ apiname) |
+| _env     | String | 否       | 200      | App环境参数              |
 
 -  Body部分
 
-| 信息单元   | 必选 | 类型  | 长度 | 说明                           |
+| 参数   | 类型 | 是否必填  | 最大长度 | 描述                         |
 | ---------- | ---- | ----- | ---- | ------------------------------ |
-| order_no | 是   | string | 20 | 订单号 |
+| order_no | string   | 是 | 20 | 订单号 |
 
 
 #### <a name='4423-ouput'>4.4.2.3  输出</a>
@@ -1064,19 +1106,19 @@ http://IP:PORT/?_apiname=order.order.getOrderInfo&mtoken=e856f9453a657db361881ae
 
 **响应参数说明**
 
-| 信息单元 | 类型   | 长度 | 说明       |
+| 参数 | 类型   | 最大长度 | 描述     |
 | -------- | ------ | ---- | ---------- |
 | order_no | string | 20   | 订单号  |
-| coin_id | tinyint | 1-3 | 币种ID |
-| price   | decimal | 1-20  | 成交单价     |
-| volume | int | 1-11  | 成交数量 |
-| total_price | decimal | 1-20 | 成交总价 |
+| coin_id | tinyint | 3 | 币种ID |
+| price   | decimal | 20  | 成交单价     |
+| volume | int | 11  | 成交数量 |
+| total_price | decimal | 20 | 成交总价 |
 | reference_no | string | 32 | 参考号 |
-| buyer_id | int | 1-11 | 买方ID |
-| seller_id | int | 1-11 | 卖方ID |
+| buyer_id | int | 11 | 买方ID |
+| seller_id | int | 11 | 卖方ID |
 | payment_method | tinyint | 1 | 交易支付方式（1：银行卡， 2：支付宝 ，3：微信支付） |
-| buyer_payment_account | int | 1-11 | 买方交易帐户ID |
-| seller_payment_account | int | 1-11 | 卖方交易帐户ID                                               |
+| buyer_payment_account | int | 11 | 买方交易帐户ID |
+| seller_payment_account | int | 11 | 卖方交易帐户ID                                               |
 | status   | tinyint | 1    | 订单状态（0：待付款， 1：已付款，2：交易成功， 3：交易关闭） |
 | create_time | datetime | 0 | 订单创建时间 |
 | update_time | datetime | 0 | 订单更新时间 |
@@ -1112,20 +1154,20 @@ http://IP:PORT/?_apiname=order.order.updateOrderStatus&mtoken=e856f9453a657db361
 
 - URL部分
 
-| 信息单元 | 必选 | 类型   | 长度  | 说明                                          |
-| -------- | ---- | ------ | ----- | --------------------------------------------- |
-| _apiname | 是   | String | 1-32  | 接口名，固定值：order.order.updateOrderStatus |
-| mtoken   | 是   | String | 32    | 用户登录令牌,由后台生成返回给前端             |
-| cc       | 是   | Int    | 10    | 时间戳，调用方生成                            |
-| ck       | 是   | String | 32    | 校验码，调用方生成: md5(时间戳+私钥+ apiname) |
-| _env     | 否   | String | 1-200 | App环境参数                                   |
+| 参数     | 是否必填 | 类型   | 最大长度 | 描述                                          |
+| -------- | -------- | ------ | -------- | ------------------- |
+| _apiname | String | 是       | 32       | 接口名，固定值：coin.coin.updateOrderStatus     |
+| mtoken   | String | 是       | 32       | 用户登录令牌,由后台生成返回给前端|
+| cc       | Int    | 是       | 10       | 时间戳，调用方生成             |
+| ck       | String | 是       | 32       | 校验码，调用方生成: md5(时间戳+私钥+ apiname) |
+| _env     | String | 否       | 200      | App环境参数              |
 
 -  Body部分
 
-| 信息单元 | 必选 | 类型    | 长度 | 说明                                                         |
-| -------- | ---- | ------- | ---- | ------------------------------------------------------------ |
-| order_no | 是   | string  | 20   | 订单号                                                       |
-| status   | 是   | tinyint | 1    | 订单状态（0：待付款， 1：已付款， 2：交易成功 ，3：交易完成， 4：交易关闭） |
+| 参数     | 是否必填 | 类型    | 最大长度 | 描述                                                         |
+| -------- | -------- | ------- | -------- | ------------------------- |
+| order_no | string   | 是  | 20       | 订单号                                                       |
+| status   | tinyint   | 是 | 1        | 订单状态（0：待付款， 1：已付款， 2：交易成功 ，3：交易完成， 4：交易关闭） |
 
 
 #### <a name='4423-ouput'>4.4.3.3  输出</a>
@@ -1168,21 +1210,21 @@ http://IP:PORT/?_apiname=order.order.getOrderList&mtoken=e856f9453a657db361881ae
 
 - URL部分
 
-| 信息单元 | 必选 | 类型   | 长度  | 说明                                          |
-| -------- | ---- | ------ | ----- | --------------------------------------------- |
-| _apiname | 是   | String | 1-32  | 接口名，固定值：order.order.getOrderList      |
-| mtoken   | 是   | String | 32    | 用户登录令牌,由后台生成返回给前端             |
-| cc       | 是   | Int    | 10    | 时间戳，调用方生成                            |
-| ck       | 是   | String | 32    | 校验码，调用方生成: md5(时间戳+私钥+ apiname) |
-| _env     | 否   | String | 1-200 | App环境参数                                   |
+| 参数     | 是否必填 | 类型   | 最大长度 | 描述                                          |
+| -------- | -------- | ------ | -------- | --------------------------------------------- |
+| _apiname | String | 是       | 32       | 接口名，固定值：coin.coin.getOrderList     |
+| mtoken   | String | 是       | 32       | 用户登录令牌,由后台生成返回给前端|
+| cc       | Int    | 是       | 10       | 时间戳，调用方生成             |
+| ck       | String | 是       | 32       | 校验码，调用方生成: md5(时间戳+私钥+ apiname) |
+| _env     | String | 否       | 200      | App环境参数              |
 
 -  Body部分
 
-| 信息单元   | 必选 | 类型  | 长度 | 说明                           |
+| 参数   | 是否必填 | 类型  | 最大长度 | 描述                         |
 | ---------- | ---- | ----- | ---- | ------------------------------ |
-| type | 是   | tinyint | 1 | 交易数据类型（1：当前交易，2：历史交易） |
-| current_page | 否 | int | 1-11 | 当前页，默认为：1 |
-| page_size | 否 | int | 1-11 | 每页显示记录数，默认为：20条 |
+| type | tinyint  | 是 | 1 | 交易数据类型（1：当前交易，2：历史交易） |
+| current_page | int | 否 | 11 | 当前页，默认为：1 |
+| page_size | int | 否 | 11 | 每页显示记录数，默认为：20条 |
 
 
 #### <a name='4443-ouput'>4.4.4.3  输出</a>
@@ -1251,22 +1293,22 @@ http://IP:PORT/?_apiname=order.order.getOrderList&mtoken=e856f9453a657db361881ae
 
 **响应参数说明**
 
-| 信息单元 | 类型   | 长度 | 说明       |
+| 参数 | 类型   | 最大长度 | 描述     |
 | -------- | ------ | ---- | ---------- |
-| total_page     | int | 1-11  | 总页数 |
-| total_record     | int | 1-11  | 总记录数 |
-| list     | Object | 1+   | 列表结果集 |
+| total_page     | int | 11  | 总页数 |
+| total_record     | int | 11  | 总记录数 |
+| list     | string | 1024 | 列表结果集 |
 | order_no | string | 20   | 订单号  |
-| coin_id | tinyint | 1-3 | 币种ID |
-| price   | decimal | 1-20  | 成交单价     |
-| volume | int | 1-11  | 成交数量 |
-| total_price | decimal | 1-20 | 成交总价 |
+| coin_id | tinyint | 3 | 币种ID |
+| price   | decimal | 20  | 成交单价     |
+| volume | int | 11  | 成交数量 |
+| total_price | decimal | 20 | 成交总价 |
 | reference_no | string | 32 | 参考号 |
-| buyer_id | int | 1-11 | 买方ID |
-| seller_id | int | 1-11 | 卖方ID |
+| buyer_id | int | 11 | 买方ID |
+| seller_id | int | 11 | 卖方ID |
 | payment_method | tinyint | 1 | 交易支付方式（1：银行卡， 2：支付宝 ，3：微信支付） |
-| buyer_payment_account | int | 1-11 | 买方交易帐户ID |
-| seller_payment_account | int | 1-11 | 卖方交易帐户ID                                               |
+| buyer_payment_account | int | 11 | 买方交易帐户ID |
+| seller_payment_account | int | 11 | 卖方交易帐户ID                                               |
 | status   | tinyint | 1    | 订单状态（0：待付款， 1：已付款，2：交易成功， 3：交易关闭） |
 | create_time | datetime | 0 | 订单创建时间 |
 | update_time | datetime | 0 | 订单更新时间 |
@@ -1296,7 +1338,7 @@ http://IP:PORT/?_apiname=order.order.getOrderList&mtoken=e856f9453a657db361881ae
 
 返回说明：
 
-| **返回key** | **说明**                                                     |
+| **返回key** | 描述                                                         |
 | ----------- | ------------------------------------------------------------ |
 | code        | 响应状态码   200 成功   104 用户未登录   400 操作有误   其他返回码表示不同的操作场景 |
 | msg         | 请求成功或失败时的message                                    |
@@ -1305,9 +1347,9 @@ http://IP:PORT/?_apiname=order.order.getOrderList&mtoken=e856f9453a657db361881ae
 
 
 
-## <a name='52-error-code'>5.2 错误码对应信息</a>
+## <a name='52-error-code'>5.2 业务错误码</a>
 
-| 错误码 | 说明                                                |
+| 错误码 | 错误描述                                       |
 | ------ | --------------------------------------------------- |
 | 104   |   用户未登录         |
 | 304   |   已存在         |
