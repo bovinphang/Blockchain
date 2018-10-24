@@ -75,32 +75,37 @@ LDS交易所C2C接口规范
      * [4.2.5.1 功能说明](#4251-function-description)
      * [4.2.5.2 输入](#4252-input)
      * [4.2.5.3 输出](#4253-ouput)
-* [4.3 币种管理](#43-coin-management)
-  * [4.3.1 获取币种详情信息](#431-get-coin-info-by-id)
+* [4.3 钱包管理](#43-wallet-management)
+  * [4.3.1 获取客户资产信息](#431-get-user-assets)
      * [4.3.1.1 功能说明](#4311-function-description)
      * [4.3.1.2 输入](#4312-input)
      * [4.3.1.3 输出](#4313-ouput)
-  * [4.3.2 获取支持C2C交易的币种列表](#432-get-c2c-coin-list)
-     * [4.3.2.1 功能说明](#4321-function-description)
-     * [4.3.2.2 输入](#4322-input)
-     * [4.3.2.3 输出](#4323-ouput)
-* [4.4 C2C订单管理](#44-c2c-order-management)
-  * [4.4.1 提交订单（委托买入/卖出）](#441-add-order)
+* [4.4 币种管理](#44-coin-management)
+  * [4.4.1 获取币种详情信息](#441-get-coin-info-by-id)
      * [4.4.1.1 功能说明](#4411-function-description)
      * [4.4.1.2 输入](#4412-input)
      * [4.4.1.3 输出](#4413-ouput)
-  * [4.4.2 获取订单详情](#442-get-order-info)
+  * [4.4.2 获取支持C2C交易的币种列表](#442-get-c2c-coin-list)
      * [4.4.2.1 功能说明](#4421-function-description)
      * [4.4.2.2 输入](#4422-input)
      * [4.4.2.3 输出](#4423-ouput)
-  * [4.4.3 更新订单交易状态](#443-update-order-status)
-     * [4.4.3.1 功能说明](#4431-function-description)
-     * [4.4.3.2 输入](#4432-input)
-     * [4.4.3.3 输出](#4433-ouput)
-  * [4.4.4 获取订单列表](#444-get-order-list)
-     * [4.4.4.1 功能说明](#4441-function-description)
-     * [4.4.4.2 输入](#4442-input)
-     * [4.4.4.3 输出](#4443-ouput)
+* [4.5 C2C订单管理](#45-c2c-order-management)
+  * [4.5.1 提交订单（委托买入/卖出）](#451-add-order)
+     * [4.5.1.1 功能说明](#4511-function-description)
+     * [4.5.1.2 输入](#4512-input)
+     * [4.5.1.3 输出](#4513-ouput)
+  * [4.5.2 获取订单详情](#452-get-order-info)
+     * [4.5.2.1 功能说明](#4521-function-description)
+     * [4.5.2.2 输入](#4522-input)
+     * [4.5.2.3 输出](#4523-ouput)
+  * [4.5.3 更新订单交易状态](#453-update-order-status)
+     * [4.5.3.1 功能说明](#4531-function-description)
+     * [4.5.3.2 输入](#4532-input)
+     * [4.5.3.3 输出](#4533-ouput)
+  * [4.5.4 获取订单列表](#454-get-order-list)
+     * [4.5.4.1 功能说明](#4541-function-description)
+     * [4.5.4.2 输入](#4542-input)
+     * [4.5.4.3 输出](#4543-ouput)
 
 **[5. 附录](#5-appendix)**
 
@@ -798,14 +803,75 @@ http://IP:PORT/?_apiname=user.payment.getPaymentList&mtoken=e856f9453a657db36188
 | account_number | string | 20       | 支付宝/微信支付帐号       |
 | qrcode         | string | 100      | 支付宝/微信支付收款二维码 |
 
-## <a name='43-coin-management'>4.3 币种管理</a>
 
-### <a name='431-get-coin-info-by-id'>4.3.1  获取币种详情信息</a>
+## <a name='43-wallet-management'>4.3 钱包管理</a>
+
+### <a name='431-get-user-assets'>4.3.1  获取客户资产信息</a>
 
 #### <a name='4311-function-description'>4.3.1.1  功能说明</a>
-通过币种ID获取币种详情信息。
+通过客户ID获取其资产详情信息。
 
 #### <a name='4312-input'>4.3.1.2  输入</a>
+
+**Request URL:**
+
+```http
+http://IP:PORT/?_apiname=wallet.wallet.getUserAssets&mtoken=e856f9453a657db361881aebd78351af&cc=1539659992&ck=b7d7662bd8771012810857e2b9656bf5&_env={}
+```
+
+**Request Method:** `POST`
+
+**Accept:** `application/json`
+
+**Request Body:**
+
+
+ **请求参数说明：**
+
+- URL部分
+
+| 参数     | 类型   | 是否必填 | 最大长度 | 描述                                          |
+| -------- | ------ | -------- | -------- | --------------------------------------------- |
+| _apiname | String | 是       | 32       | 接口名，固定值：user.user.getUserInfoById     |
+| mtoken   | String | 是       | 32       | 用户登录令牌,由后台生成返回给前端             |
+| cc       | Int    | 是       | 10       | 时间戳，调用方生成                            |
+| ck       | String | 是       | 32       | 校验码，调用方生成: md5(时间戳+私钥+ apiname) |
+| _env     | String | 否       | 200      | App环境参数                                   |
+
+
+#### <a name='4313-ouput'>4.3.1.3  输出</a>
+
+```json
+{
+  "code": "200",
+  "msg": "success",
+  "time": "1539667765",
+  "data": {
+    "available_balance": "158535.42328589",
+    "freeze_balance": "75829.27561772",
+    "delay_balance": "0.00000000"
+  }
+}
+
+```
+
+**响应参数说明**
+
+| 参数              | 类型    | 最大长度 | 描述                                 |
+| ----------------- | ------- | -------- | -------------------- |
+| available_balance | decimal | 20,8     | 可用余额              |
+| freeze_balance    | decimal | 20,8     | 冻结余额              |
+| delay_balance     | decimal | 20,8     | 延迟余额（后台转账、扣款、注册分润） |
+
+
+## <a name='44-coin-management'>4.4 币种管理</a>
+
+### <a name='441-get-coin-info-by-id'>4.4.1  获取币种详情信息</a>
+
+#### <a name='4411-function-description'>4.4.1.1  功能说明</a>
+通过币种ID获取币种详情信息。
+
+#### <a name='4412-input'>4.4.1.2  输入</a>
 
 **Request URL:**
 
@@ -842,7 +908,7 @@ http://IP:PORT/?_apiname=coin.coin.getCoinInfoById&mtoken=e856f9453a657db361881a
 | ------- | ------- | -------- | -------- | ------ |
 | coin_id | tinyint | 是       | 3        | 币种ID |
 
-#### <a name='4313-ouput'>4.3.1.3  输出</a>
+#### <a name='4413-ouput'>4.4.1.3  输出</a>
 
 ```json
 {
@@ -879,12 +945,12 @@ http://IP:PORT/?_apiname=coin.coin.getCoinInfoById&mtoken=e856f9453a657db361881a
 | selling_price  | decimal | 20       | 卖出单价        |
 
 
-### <a name='432-get-c2c-coin-list'>4.3.2  获取支持C2C交易的币种列表</a>
+### <a name='442-get-c2c-coin-list'>4.4.2  获取支持C2C交易的币种列表</a>
 
-#### <a name='4321-function-description'>4.3.2.1  功能说明</a>
+#### <a name='4421-function-description'>4.4.2.1  功能说明</a>
 获取币种列表信息。
 
-#### <a name='4322-input'>4.3.2.2  输入</a>
+#### <a name='4422-input'>4.4.2.2  输入</a>
 
 **Request URL:**
 
@@ -920,7 +986,7 @@ http://IP:PORT/?_apiname=coin.coin.getC2CCoinList&mtoken=e856f9453a657db361881ae
 | ------ | -------- | ------- | -------- | ----------------------------------- |
 | is_c2c | tinyint       | 是 | 1        | 是否支持C2C交易  0：不支持，1：支持 |
 
-#### <a name='4323-ouput'>4.3.2.3  输出</a>
+#### <a name='4423-ouput'>4.4.2.3  输出</a>
 
 ```json
 {
@@ -970,14 +1036,14 @@ http://IP:PORT/?_apiname=coin.coin.getC2CCoinList&mtoken=e856f9453a657db361881ae
 | ---- | ------ | -------- | ---------- |
 | list | String | 100      | 列表结果集 |
 
-## <a name='44-c2c-order-management'>4.4 C2C订单管理</a>
+## <a name='45-c2c-order-management'>4.5 C2C订单管理</a>
 
-### <a name='441-add-order'>4.4.1 提交订单（委托买入/卖出）</a>
+### <a name='451-add-order'>4.5.1 提交订单（委托买入/卖出）</a>
 
-#### <a name='4411-function-description'>4.4.1.1  功能说明</a>
+#### <a name='4511-function-description'>4.5.1.1  功能说明</a>
 提交委托买入/卖出相关的订单数据。
 
-#### <a name='4412-input'>4.4.1.2  输入</a>
+#### <a name='4512-input'>4.5.1.2  输入</a>
 
 **Request URL:**
 
@@ -1016,7 +1082,7 @@ http://IP:PORT/?_apiname=order.order.addOrder&mtoken=e856f9453a657db361881aebd78
 | type    | tinyint       | 是 | 1        | 类型  1：委托买入，2：委托卖出 |
 
 
-#### <a name='4413-ouput'>4.4.1.3  输出</a>
+#### <a name='4513-ouput'>4.5.1.3  输出</a>
 
 ```json
 {
@@ -1035,12 +1101,12 @@ http://IP:PORT/?_apiname=order.order.addOrder&mtoken=e856f9453a657db361881aebd78
 | -------- | ------ | ---- | ---------- |
 | order_no | String | 20| 订单号   |
 
-### <a name='442-get-order-info'>4.4.2 获取订单详情</a>
+### <a name='452-get-order-info'>4.5.2 获取订单详情</a>
 
-#### <a name='4421-function-description'>4.4.2.1  功能说明</a>
+#### <a name='4521-function-description'>4.5.2.1  功能说明</a>
 根据订单号获取订单详情数据。
 
-#### <a name='4422-input'>4.4.2.2  输入</a>
+#### <a name='4522-input'>4.5.2.2  输入</a>
 
 **Request URL:**
 
@@ -1077,7 +1143,7 @@ http://IP:PORT/?_apiname=order.order.getOrderInfo&mtoken=e856f9453a657db361881ae
 | order_no | string   | 是 | 20 | 订单号 |
 
 
-#### <a name='4423-ouput'>4.4.2.3  输出</a>
+#### <a name='4523-ouput'>4.5.2.3  输出</a>
 
 ```json
 {
@@ -1127,12 +1193,12 @@ http://IP:PORT/?_apiname=order.order.getOrderInfo&mtoken=e856f9453a657db361881ae
 
 
 
-### <a name='443-update-order-status'>4.4.3 更新订单交易状态</a>
+### <a name='453-update-order-status'>4.5.3 更新订单交易状态</a>
 
-#### <a name='4421-function-description'>4.4.3.1  功能说明</a>
+#### <a name='4521-function-description'>4.5.3.1  功能说明</a>
 更新订单的交易状态。
 
-#### <a name='4422-input'>4.4.3.2  输入</a>
+#### <a name='4522-input'>4.5.3.2  输入</a>
 
 **Request URL:**
 
@@ -1170,7 +1236,7 @@ http://IP:PORT/?_apiname=order.order.updateOrderStatus&mtoken=e856f9453a657db361
 | status   | tinyint   | 是 | 1        | 订单状态（0：待付款， 1：已付款， 2：交易成功 ，3：交易完成， 4：交易关闭） |
 
 
-#### <a name='4423-ouput'>4.4.3.3  输出</a>
+#### <a name='4523-ouput'>4.5.3.3  输出</a>
 
 ```json
 {
@@ -1183,12 +1249,12 @@ http://IP:PORT/?_apiname=order.order.updateOrderStatus&mtoken=e856f9453a657db361
 ```
 
 
-### <a name='444-get-order-list'>4.4.4 获取订单列表</a>
+### <a name='454-get-order-list'>4.5.4 获取订单列表</a>
 
-#### <a name='4441-function-description'>4.4.4.1  功能说明</a>
+#### <a name='4541-function-description'>4.5.4.1  功能说明</a>
 获取订单列表数据。
 
-#### <a name='4442-input'>4.4.4.2  输入</a>
+#### <a name='4542-input'>4.5.4.2  输入</a>
 
 **Request URL:**
 
@@ -1227,7 +1293,7 @@ http://IP:PORT/?_apiname=order.order.getOrderList&mtoken=e856f9453a657db361881ae
 | page_size | int | 否 | 11 | 每页显示记录数，默认为：20条 |
 
 
-#### <a name='4443-ouput'>4.4.4.3  输出</a>
+#### <a name='4543-ouput'>4.5.4.3  输出</a>
 
 ```json
 {
