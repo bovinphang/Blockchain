@@ -832,7 +832,7 @@ http://IP:PORT/?_apiname=wallet.wallet.getUserAssets&mtoken=e856f9453a657db36188
 
 | 参数     | 类型   | 是否必填 | 最大长度 | 描述                                          |
 | -------- | ------ | -------- | -------- | --------------------------------------------- |
-| _apiname | String | 是       | 32       | 接口名，固定值：user.user.getUserInfoById     |
+| _apiname | String | 是       | 32       | 接口名，固定值：wallet.wallet.getUserAssets   |
 | mtoken   | String | 是       | 32       | 用户登录令牌,由后台生成返回给前端             |
 | cc       | Int    | 是       | 10       | 时间戳，调用方生成                            |
 | ck       | String | 是       | 32       | 校验码，调用方生成: md5(时间戳+私钥+ apiname) |
